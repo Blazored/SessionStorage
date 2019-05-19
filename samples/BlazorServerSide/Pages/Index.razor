@@ -1,0 +1,107 @@
+﻿@page "/"
+@inject ISessionStorageService sessionStorage
+
+<h1>Hello, world!</h1>
+
+Welcome to your new app.
+
+<SurveyPrompt Title="How is Blazor working for you?" />
+
+<hr class="mb-5" />
+
+<div class="row mb-5">
+
+    <div class="col-md-4">
+        <h5>Add Item to session storage</h5>
+        <div class="input-group">
+            <input class="form-control" type="text" placeholder="Enter a value" bind="@Name" />
+            <div class="input-group-append">
+                <button class="btn btn-primary" onclick="@SaveName">Save</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-4">
+        <h5>Remove item from session storage</h5>
+        <button class="btn btn-primary" onclick=@RemoveName>Remove Item</button>
+    </div>
+
+    <div class="col-md-4">
+        <h5>Clear session storage</h5>
+        <button class="btn btn-primary" onclick=@ClearSessionStorage>Clear All</button>
+    </div>
+</div>
+
+<div class="row">
+
+    <div class="col-md-4">
+        <h5>Value Read from session storage</h5>
+        @NameFromSessionStorage
+    </div>
+
+    <div class="col-md-4">
+        <h5>Items in session storage</h5>
+        @ItemsInSessionStorage
+    </div>
+</div>
+
+@functions {
+
+    string NameFromSessionStorage { get; set; }
+    int ItemsInSessionStorage { get; set; }
+    string Name { get; set; }
+
+    protected override async Task OnAfterRenderAsync()
+    {
+        await GetNameFromSessionStorage();
+        await GetSessionStorageLength();
+
+        sessionStorage.Changed += (sender, e) =>
+        {
+            Console.WriteLine($"Value for key {e.Key} changed from {e.OldValue} to {e.NewValue}");
+        };
+    }
+
+    async Task SaveName()
+    {
+        await sessionStorage.SetItemAsync("name", Name);
+        await GetNameFromSessionStorage();
+        await GetSessionStorageLength();
+
+        Name = "";
+    }
+
+    async Task GetNameFromSessionStorage()
+    {
+        NameFromSessionStorage = await sessionStorage.GetItemAsync<string>("name");
+
+        if (string.IsNullOrEmpty(NameFromSessionStorage))
+        {
+            NameFromSessionStorage = "Nothing Saved";
+        }
+    }
+
+    async Task RemoveName()
+    {
+        await sessionStorage.RemoveItemAsync("name");
+        await GetNameFromSessionStorage();
+        await GetSessionStorageLength();
+    }
+
+    async Task ClearSessionStorage()
+    {
+        Console.WriteLine("Calling Clear...");
+        await sessionStorage.ClearAsync();
+        Console.WriteLine("Getting name from session storage...");
+        await GetNameFromSessionStorage();
+        Console.WriteLine("Calling Get Length...");
+        await GetSessionStorageLength();
+    }
+
+    async Task GetSessionStorageLength()
+    {
+        Console.WriteLine(await sessionStorage.LengthAsync());
+        ItemsInSessionStorage = await sessionStorage.LengthAsync();
+    }
+
+}
