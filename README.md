@@ -38,7 +38,7 @@ This is an example of using session storage in a .cshtml file
 ```c#
 @inject Blazored.SessionStorage.ISessionStorageService sessionStorage
 
-@functions {
+@code {
 
     protected override async Task OnInitAsync()
     {
@@ -54,7 +54,7 @@ If you are using Blazor (not Razor Components), you can choose to instead inject
 ```c#
 @inject Blazored.SessionStorage.ISyncStorageService sessionStorage
 
-@functions {
+@code {
 
     protected override void OnInit()
     {
