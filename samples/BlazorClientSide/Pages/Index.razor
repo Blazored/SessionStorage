@@ -1,11 +1,7 @@
 ﻿@page "/"
 @inject ISessionStorageService sessionStorage
 
-<h1>Hello, world!</h1>
-
-Welcome to your new app.
-
-<SurveyPrompt Title="How is Blazor working for you?" />
+<h1>Blazored SessionStorage Sample</h1>
 
 <hr class="mb-5" />
 
@@ -51,7 +47,7 @@ Welcome to your new app.
     int ItemsInSessionStorage { get; set; }
     string Name { get; set; }
 
-    protected override async Task OnInitAsync()
+    protected override async Task OnInitializedAsync()
     {
         await GetNameFromSessionStorage();
         await GetSessionStorageLength();

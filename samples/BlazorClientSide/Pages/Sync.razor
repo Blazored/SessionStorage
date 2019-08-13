@@ -45,7 +45,7 @@
     int ItemsInSessionStorage { get; set; }
     string Name { get; set; }
 
-    protected override void OnInit()
+    protected override void OnInitialized()
     {
         GetNameFromSessionStorage();
         GetSessionStorageLength();
