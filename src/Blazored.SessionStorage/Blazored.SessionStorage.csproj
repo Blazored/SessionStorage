@@ -7,7 +7,7 @@
     <TypeScriptToolsVersion>3.2</TypeScriptToolsVersion>
 
     <PackageId>Blazored.SessionStorage</PackageId>
-    <Version>1.0.5</Version>
+    <Version>1.0.6</Version>
     <Authors>Chris Sainty</Authors>
     <Description>A library to provide access to session storage in Blazor applications</Description>
     <Copyright>Copyright 2018 (c) Chris Sainty. All rights reserved.</Copyright>
@@ -18,18 +18,10 @@
     <PackageTags>Blazor SessionStorage Blazored Razor Components</PackageTags>
     <Company />
   </PropertyGroup>
-
-  <ItemGroup>
-    <TypeScriptCompile Include="Interop\blazored-sessionstorage.ts" />
-  </ItemGroup>
   
   <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.Components" Version="3.0.0-preview8.19405.7" />
     <PackageReference Include="Microsoft.AspNetCore.Components.Web" Version="3.0.0-preview8.19405.7" />
-    <PackageReference Include="Microsoft.TypeScript.MsBuild" Version="3.5.1">
-      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
-      <PrivateAssets>all</PrivateAssets>
-    </PackageReference>
   </ItemGroup>
 
 </Project>
