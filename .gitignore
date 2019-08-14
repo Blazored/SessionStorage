@@ -3,10 +3,6 @@
 ##
 ## Get latest from https://github.com/github/gitignore/blob/master/VisualStudio.gitignore
 
-# Generated files
-src/Blazored.SessionStorage/content/blazored.SessionStorage.js
-src/Blazored.SessionStorage/content/blazored.SessionStorage.js.map
-
 # User-specific files
 *.suo
 *.user

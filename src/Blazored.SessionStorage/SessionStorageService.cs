@@ -26,7 +26,7 @@ namespace Blazored.SessionStorage
             if (e.Cancel)
                 return;
 
-            await _jSRuntime.InvokeAsync<object>("Blazored.SessionStorage.SetItem", key, JsonSerializer.Serialize(data));
+            await _jSRuntime.InvokeAsync<object>("blazoredSessionStorage.setItem", key, JsonSerializer.Serialize(data));
 
             RaiseOnChanged(key, e.OldValue, data);
         }
@@ -36,7 +36,7 @@ namespace Blazored.SessionStorage
             if (string.IsNullOrEmpty(key))
                 throw new ArgumentNullException(nameof(key));
 
-            var serialisedData = await _jSRuntime.InvokeAsync<string>("Blazored.SessionStorage.GetItem", key);
+            var serialisedData = await _jSRuntime.InvokeAsync<string>("blazoredSessionStorage.getItem", key);
 
             if (serialisedData == null)
                 return default(T);
@@ -49,14 +49,14 @@ namespace Blazored.SessionStorage
             if (string.IsNullOrEmpty(key))
                 throw new ArgumentNullException(nameof(key));
 
-            await _jSRuntime.InvokeAsync<object>("Blazored.SessionStorage.RemoveItem", key);
+            await _jSRuntime.InvokeAsync<object>("blazoredSessionStorage.removeItem", key);
         }
 
-        public async Task ClearAsync() => await _jSRuntime.InvokeAsync<object>("Blazored.SessionStorage.Clear");
+        public async Task ClearAsync() => await _jSRuntime.InvokeAsync<object>("blazoredSessionStorage.clear");
 
-        public async Task<int> LengthAsync() => await _jSRuntime.InvokeAsync<int>("Blazored.SessionStorage.Length");
+        public async Task<int> LengthAsync() => await _jSRuntime.InvokeAsync<int>("blazoredSessionStorage.length");
 
-        public async Task<string> KeyAsync(int index) => await _jSRuntime.InvokeAsync<string>("Blazored.SessionStorage.Key", index);
+        public async Task<string> KeyAsync(int index) => await _jSRuntime.InvokeAsync<string>("blazoredSessionStorage.key", index);
 
         public void SetItem(string key, object data)
         {
@@ -71,7 +71,7 @@ namespace Blazored.SessionStorage
             if (e.Cancel)
                 return;
 
-            _jSInProcessRuntime.Invoke<object>("Blazored.SessionStorage.SetItem", key, JsonSerializer.Serialize(data));
+            _jSInProcessRuntime.Invoke<object>("blazoredSessionStorage.setItem", key, JsonSerializer.Serialize(data));
 
             RaiseOnChanged(key, e.OldValue, data);
         }
@@ -84,7 +84,7 @@ namespace Blazored.SessionStorage
             if (_jSInProcessRuntime == null)
                 throw new InvalidOperationException("IJSInProcessRuntime not available");
 
-            var serialisedData = _jSInProcessRuntime.Invoke<string>("Blazored.SessionStorage.GetItem", key);
+            var serialisedData = _jSInProcessRuntime.Invoke<string>("blazoredSessionStorage.getItem", key);
 
             if (serialisedData == null)
                 return default(T);
@@ -100,7 +100,7 @@ namespace Blazored.SessionStorage
             if (_jSInProcessRuntime == null)
                 throw new InvalidOperationException("IJSInProcessRuntime not available");
 
-            _jSInProcessRuntime.Invoke<object>("Blazored.SessionStorage.RemoveItem", key);
+            _jSInProcessRuntime.Invoke<object>("blazoredSessionStorage.removeItem", key);
         }
 
         public void Clear()
@@ -108,7 +108,7 @@ namespace Blazored.SessionStorage
             if (_jSInProcessRuntime == null)
                 throw new InvalidOperationException("IJSInProcessRuntime not available");
 
-            _jSInProcessRuntime.Invoke<object>("Blazored.SessionStorage.Clear");
+            _jSInProcessRuntime.Invoke<object>("blazoredSessionStorage.clear");
         }
 
         public int Length()
@@ -116,7 +116,7 @@ namespace Blazored.SessionStorage
             if (_jSInProcessRuntime == null)
                 throw new InvalidOperationException("IJSInProcessRuntime not available");
 
-            return _jSInProcessRuntime.Invoke<int>("Blazored.SessionStorage.Length");
+            return _jSInProcessRuntime.Invoke<int>("blazoredSessionStorage.length");
         }
 
         public string Key(int index)
@@ -124,7 +124,7 @@ namespace Blazored.SessionStorage
             if (_jSInProcessRuntime == null)
                 throw new InvalidOperationException("IJSInProcessRuntime not available");
 
-            return _jSInProcessRuntime.Invoke<string>("Blazored.SessionStorage.Key", index);
+            return _jSInProcessRuntime.Invoke<string>("blazoredSessionStorage.key", index);
         }
 
         public event EventHandler<ChangingEventArgs> Changing;
