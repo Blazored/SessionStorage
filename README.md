@@ -15,49 +15,43 @@ Or via the Visual Studio package manger.
 
 ### Setup
 
-You need to add a reference to the Blazored SessionStorage javascript file in your `index.html` (Blazor WebAssembly) `_Host.cshtml` (Blazor Server).
-
-```html
-<script src="_content/Blazored.SessionStorage/blazored-sessionstorage.js"></script>
-```
-
-You will then need to register the local storage services with the service collection in your _startup.cs_ file.
+You will need to register the session storage services with the service collection in your _startup.cs_ file.
 
 ```c#
 public void ConfigureServices(IServiceCollection services)
 {
-    services.AddBlazoredLocalStorage();
+    services.AddBlazoredSessionStorage();
 }
 ``` 
 
 ### Usage (Blazor WebAssembly)
-To use Blazored.SessionStorage in Blazor WebAssembly, inject the `ILocalStorageService` per the example below.
+To use Blazored.SessionStorage in Blazor WebAssembly, inject the `ISessionStorageService` per the example below.
 
 ```c#
-@inject Blazored.SessionStorage.ILocalStorageService localStorage
+@inject Blazored.SessionStorage.ISessionStorageService sessionStorage
 
 @code {
 
     protected override async Task OnInitializedAsync()
     {
-        await localStorage.SetItemAsync("name", "John Smith");
-        var name = await localStorage.GetItemAsync<string>("name");
+        await sessionStorage.SetItemAsync("name", "John Smith");
+        var name = await sessionStorage.GetItemAsync<string>("name");
     }
 
 }
 ```
 
-With Blazor WebAssembly you also have the option of a synchronous API, if your use case requires it. You can swap the `ILocalStorageService` for `ISyncStorageService` which allows you to avoid use of `async`/`await`. For either interface, the method names are the same.
+With Blazor WebAssembly you also have the option of a synchronous API, if your use case requires it. You can swap the `ISessionStorageService` for `ISyncStorageService` which allows you to avoid use of `async`/`await`. For either interface, the method names are the same.
 
 ```c#
-@inject Blazored.SessionStorage.ISyncStorageService localStorage
+@inject Blazored.SessionStorage.ISyncStorageService sessionStorage
 
 @code {
 
     protected override void OnInitialized()
     {
-        localStorage.SetItem("name", "John Smith");
-        var name = localStorage.GetItem<string>("name");
+        sessionStorage.SetItem("name", "John Smith");
+        var name = sessionStorage.GetItem<string>("name");
     }
 
 }
@@ -68,14 +62,14 @@ With Blazor WebAssembly you also have the option of a synchronous API, if your u
 **NOTE:** Due to pre-rendering in Blazor Server you can't perform any JS interop until the `OnAfterRender` lifecycle method.
 
 ```c#
-@inject Blazored.SessionStorage.ILocalStorageService localStorage
+@inject Blazored.SessionStorage.ISessionStorageService sessionStorage
 
 @functions {
 
     protected override async Task OnAfterRenderAsync()
     {
-        await localStorage.SetItemAsync("name", "John Smith");
-        var name = await localStorage.GetItemAsync<string>("name");
+        await sessionStorage.SetItemAsync("name", "John Smith");
+        var name = await sessionStorage.GetItemAsync<string>("name");
     }
 
 }
@@ -83,7 +77,7 @@ With Blazor WebAssembly you also have the option of a synchronous API, if your u
 
 The APIs available are:
 
-- asynchronous via `ILocalStorageService`:
+- asynchronous via `ISessionStorageService`:
   - SetItemAsync()
   - GetItemAsync()
   - RemoveItemAsync()
