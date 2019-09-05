@@ -1,4 +1,5 @@
 ﻿@page "/"
+@using Microsoft.AspNetCore.Components.Web
 @inject ISessionStorageService sessionStorage
 
 <h1>Blazored SessionStorage Sample</h1>
@@ -47,7 +48,7 @@
     int ItemsInSessionStorage { get; set; }
     string Name { get; set; }
 
-    protected override async Task OnAfterRenderAsync()
+    protected override async Task OnAfterRenderAsync(bool firstRender)
     {
         await GetNameFromSessionStorage();
         await GetSessionStorageLength();
