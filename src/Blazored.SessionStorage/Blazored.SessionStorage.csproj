@@ -7,7 +7,7 @@
     <TypeScriptToolsVersion>3.2</TypeScriptToolsVersion>
 
     <PackageId>Blazored.SessionStorage</PackageId>
-    <Version>1.0.8</Version>
+    <Version>1.0.9</Version>
     <Authors>Chris Sainty</Authors>
     <Description>A library to provide access to session storage in Blazor applications</Description>
     <Copyright>Copyright 2018 (c) Chris Sainty. All rights reserved.</Copyright>
