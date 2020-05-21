@@ -82,10 +82,10 @@ To use Blazored.SessionStorage in Blazor WebAssembly, inject the `ISessionStorag
 }
 ```
 
-With Blazor WebAssembly you also have the option of a synchronous API, if your use case requires it. You can swap the `ISessionStorageService` for `ISyncStorageService` which allows you to avoid use of `async`/`await`. For either interface, the method names are the same.
+With Blazor WebAssembly you also have the option of a synchronous API, if your use case requires it. You can swap the `ISessionStorageService` for `ISyncSessionStorageService` which allows you to avoid use of `async`/`await`. For either interface, the method names are the same.
 
 ```c#
-@inject Blazored.SessionStorage.ISyncStorageService sessionStorage
+@inject Blazored.SessionStorage.ISyncSessionStorageService sessionStorage
 
 @code {
 
@@ -127,7 +127,7 @@ The APIs available are:
   - KeyAsync()
   - ContainsKeyAsync()
   
-- synchronous via `ISyncStorageService` (Synchronous methods are **only** available in Blazor WebAssembly):
+- synchronous via `ISyncSessionStorageService` (Synchronous methods are **only** available in Blazor WebAssembly):
   - SetItem()
   - GetItem()
   - RemoveItem()
