@@ -6,7 +6,7 @@
     <RootNamespace>Blazored.SessionStorage</RootNamespace>
 
     <PackageId>Blazored.SessionStorage</PackageId>
-    <Version>1.0.11</Version>
+    <Version>1.0.12</Version>
     <Authors>Chris Sainty</Authors>
     <Description>A library to provide access to session storage in Blazor applications</Description>
     <Copyright>Copyright 2018 (c) Chris Sainty. All rights reserved.</Copyright>
