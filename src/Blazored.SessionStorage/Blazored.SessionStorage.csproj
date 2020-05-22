@@ -4,7 +4,6 @@
     <TargetFramework>netstandard2.0</TargetFramework>
     <RazorLangVersion>3.0</RazorLangVersion>
     <RootNamespace>Blazored.SessionStorage</RootNamespace>
-    <TypeScriptToolsVersion>3.2</TypeScriptToolsVersion>
 
     <PackageId>Blazored.SessionStorage</PackageId>
     <Version>1.0.11</Version>
@@ -18,10 +17,10 @@
     <PackageTags>Blazor SessionStorage Blazored Razor Components</PackageTags>
     <Company />
   </PropertyGroup>
-  
+
   <ItemGroup>
-    <PackageReference Include="Microsoft.AspNetCore.Components" Version="3.0.0" />
-    <PackageReference Include="Microsoft.AspNetCore.Components.Web" Version="3.0.0" />
+    <PackageReference Include="Microsoft.AspNetCore.Components" Version="3.1.4" />
+    <PackageReference Include="Microsoft.AspNetCore.Components.Web" Version="3.1.4" />
   </ItemGroup>
 
 </Project>

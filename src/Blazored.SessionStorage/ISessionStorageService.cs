@@ -15,7 +15,7 @@ namespace Blazored.SessionStorage
 
         Task RemoveItemAsync(string key);
 
-        Task SetItemAsync(string key, object data);
+        Task SetItemAsync<T>(string key, T data);
 
         event EventHandler<ChangingEventArgs> Changing;
         event EventHandler<ChangedEventArgs> Changed;

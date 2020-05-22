@@ -3,7 +3,7 @@ A library to provide access to session storage in Blazor applications
 
 [![Build Status](https://dev.azure.com/blazored/SessionStorage/_apis/build/status/Blazored.SessionStorage?branchName=master)](https://dev.azure.com/blazored/SessionStorage/_build/latest?definitionId=1&branchName=master)
 
-![Nuget](https://img.shields.io/nuget/v/blazored.sessionstorage.svg)
+[![Nuget](https://img.shields.io/nuget/v/blazored.sessionstorage.svg)](https://www.nuget.org/packages/Blazored.SessionStorage/)
 
 ### Installing
 
@@ -11,11 +11,11 @@ You can install from NuGet using the following command:
 
 `Install-Package Blazored.SessionStorage`
 
-Or via the Visual Studio package manger.
+Or via the Visual Studio package manager.
 
 ### Setup
 
-You will need to register the session storage services with the service collection in your _startup.cs_ file.
+You will need to register the session storage services with the service collection in your _Startup.cs_ file in Blazor Server.
 
 ```c#
 public void ConfigureServices(IServiceCollection services)
@@ -23,6 +23,47 @@ public void ConfigureServices(IServiceCollection services)
     services.AddBlazoredSessionStorage();
 }
 ``` 
+
+Or in your _Program.cs_ file in Blazor WebAssembly.
+
+```c#
+public static async Task Main(string[] args)
+{
+    var builder = WebAssemblyHostBuilder.CreateDefault(args);
+    builder.RootComponents.Add<App>("app");
+
+    builder.Services.AddBlazoredSessionStorage();
+
+    await builder.Build().RunAsync();
+}
+```
+
+### Configuration
+
+The session storage provides options that can be modified by you at registration in your _Startup.cs_ file in Blazor Server.
+
+
+```c#
+public void ConfigureServices(IServiceCollection services)
+{
+    services.AddBlazoredSessionStorage(config =>
+        config.JsonSerializerOptions.WriteIndented = true);
+}
+```
+Or in your _Program.cs_ file in Blazor WebAssembly.
+
+```c#
+public static async Task Main(string[] args)
+{
+    var builder = WebAssemblyHostBuilder.CreateDefault(args);
+    builder.RootComponents.Add<App>("app");
+
+    builder.Services.AddBlazoredSessionStorage(config =>
+        config.JsonSerializerOptions.WriteIndented = true);
+
+    await builder.Build().RunAsync();
+}
+```
 
 ### Usage (Blazor WebAssembly)
 To use Blazored.SessionStorage in Blazor WebAssembly, inject the `ISessionStorageService` per the example below.
@@ -64,9 +105,9 @@ With Blazor WebAssembly you also have the option of a synchronous API, if your u
 ```c#
 @inject Blazored.SessionStorage.ISessionStorageService sessionStorage
 
-@functions {
+@code {
 
-    protected override async Task OnAfterRenderAsync()
+    protected override async Task OnAfterRenderAsync(bool firstRender)
     {
         await sessionStorage.SetItemAsync("name", "John Smith");
         var name = await sessionStorage.GetItemAsync<string>("name");
@@ -84,12 +125,15 @@ The APIs available are:
   - ClearAsync()
   - LengthAsync()
   - KeyAsync()
-- synchronous via `ISyncSessionStorageService`:
+  - ContainsKeyAsync()
+  
+- synchronous via `ISyncSessionStorageService` (Synchronous methods are **only** available in Blazor WebAssembly):
   - SetItem()
   - GetItem()
   - RemoveItem()
   - Clear()
   - Length()
   - Key()
+  - ContainsKey()
 
 **Note:** Blazored.SessionStorage methods will handle the serialisation and de-serialisation of the data for you.

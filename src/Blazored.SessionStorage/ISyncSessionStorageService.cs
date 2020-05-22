@@ -14,7 +14,7 @@ namespace Blazored.SessionStorage
 
         void RemoveItem(string key);
 
-        void SetItem(string key, object data);
+        void SetItem<T>(string key, T data);
 
         event EventHandler<ChangingEventArgs> Changing;
         event EventHandler<ChangedEventArgs> Changed;
