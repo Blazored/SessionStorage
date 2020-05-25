@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace Blazored.SessionStorage
 {
@@ -15,6 +16,8 @@ namespace Blazored.SessionStorage
         void RemoveItem(string key);
 
         void SetItem<T>(string key, T data);
+
+        IEnumerable<string> GetKeys();
 
         event EventHandler<ChangingEventArgs> Changing;
         event EventHandler<ChangedEventArgs> Changed;

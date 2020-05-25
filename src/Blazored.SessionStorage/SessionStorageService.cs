@@ -2,7 +2,10 @@
 using Microsoft.Extensions.Options;
 using Microsoft.JSInterop;
 using System;
+using System.Collections.Generic;
+using System.Runtime.CompilerServices;
 using System.Text.Json;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace Blazored.SessionStorage
@@ -176,6 +179,60 @@ namespace Blazored.SessionStorage
             };
 
             Changed?.Invoke(this, e);
+        }
+
+        public IEnumerable<string> GetKeys()
+        {
+            if (_jSInProcessRuntime == default)
+            {
+                var length = LengthAsync().Result;
+
+                for (var index = 0; index < length; index++)
+                {
+                    yield return KeyAsync(index).Result;
+                }
+            }
+            else
+            {
+                var length = Length();
+
+                for (var index = 0; index < length; index++)
+                {
+                    yield return Key(index);
+                }
+            }
+        }
+
+        public async IAsyncEnumerable<string> GetKeysAsync([EnumeratorCancellation] CancellationToken cancellationToken)
+        {
+            if (_jSInProcessRuntime == default)
+            {
+                var length = await LengthAsync();
+
+                for (var index = 0; index < length; index++)
+                {
+                    if (cancellationToken.IsCancellationRequested)
+                    {
+                        throw new TaskCanceledException();
+                    }
+
+                    yield return await KeyAsync(index);
+                }
+            }
+            else
+            {
+                var length = Length();
+
+                for (var index = 0; index < length; index++)
+                {
+                    if (cancellationToken.IsCancellationRequested)
+                    {
+                        throw new TaskCanceledException();
+                    }
+
+                    yield return Key(index);
+                }
+            }
         }
     }
 }
