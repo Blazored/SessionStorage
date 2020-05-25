@@ -52,9 +52,13 @@
         await GetNameFromSessionStorage();
         await GetSessionStorageLength();
 
-        sessionStorage.Changed += (sender, e) =>
+        sessionStorage.Changed += async (sender, e) =>
         {
             Console.WriteLine($"Value for key {e.Key} changed from {e.OldValue} to {e.NewValue}");
+            await foreach(var key in sessionStorage.GetKeysAsync())
+            {
+                Console.WriteLine($"Key: {key}");
+            }
         };
     }
 
