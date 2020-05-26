@@ -1,12 +1,12 @@
-﻿using Blazored.SessionStorage.StorageOptions;
-using Microsoft.Extensions.Options;
-using Microsoft.JSInterop;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Runtime.CompilerServices;
 using System.Text.Json;
 using System.Threading;
 using System.Threading.Tasks;
+using Blazored.SessionStorage.StorageOptions;
+using Microsoft.Extensions.Options;
+using Microsoft.JSInterop;
 
 namespace Blazored.SessionStorage
 {
@@ -141,6 +141,49 @@ namespace Blazored.SessionStorage
             return _jSInProcessRuntime.Invoke<string>("sessionStorage.key", index);
         }
 
+        public IEnumerable<string> GetKeys()
+        {
+            if (_jSInProcessRuntime == null)
+                throw new InvalidOperationException("IJSInProcessRuntime not available");
+
+            var length = Length();
+
+            for (var index = 0; index < length; index++)
+            {
+                var key = Key(index);
+
+                if (key == default)
+                {
+                    yield break;
+                }
+
+                yield return key;
+            }
+        }
+
+        public async IAsyncEnumerable<string> GetKeysAsync([EnumeratorCancellation] CancellationToken cancellationToken)
+        {
+            Console.WriteLine("GetKeysAsync");
+            var length = await LengthAsync();
+
+            for (var index = 0; index < length; index++)
+            {
+                if (cancellationToken.IsCancellationRequested)
+                {
+                    throw new TaskCanceledException();
+                }
+
+                var key = await KeyAsync(index);
+
+                if (key == default)
+                {
+                    yield break;
+                }
+
+                yield return key;
+            }
+        }
+
         private async Task<ChangingEventArgs> RaiseOnChangingAsync(string key, object data)
         {
             var e = new ChangingEventArgs
@@ -179,60 +222,6 @@ namespace Blazored.SessionStorage
             };
 
             Changed?.Invoke(this, e);
-        }
-
-        public IEnumerable<string> GetKeys()
-        {
-            if (_jSInProcessRuntime == default)
-            {
-                var length = LengthAsync().Result;
-
-                for (var index = 0; index < length; index++)
-                {
-                    yield return KeyAsync(index).Result;
-                }
-            }
-            else
-            {
-                var length = Length();
-
-                for (var index = 0; index < length; index++)
-                {
-                    yield return Key(index);
-                }
-            }
-        }
-
-        public async IAsyncEnumerable<string> GetKeysAsync([EnumeratorCancellation] CancellationToken cancellationToken)
-        {
-            if (_jSInProcessRuntime == default)
-            {
-                var length = await LengthAsync();
-
-                for (var index = 0; index < length; index++)
-                {
-                    if (cancellationToken.IsCancellationRequested)
-                    {
-                        throw new TaskCanceledException();
-                    }
-
-                    yield return await KeyAsync(index);
-                }
-            }
-            else
-            {
-                var length = Length();
-
-                for (var index = 0; index < length; index++)
-                {
-                    if (cancellationToken.IsCancellationRequested)
-                    {
-                        throw new TaskCanceledException();
-                    }
-
-                    yield return Key(index);
-                }
-            }
         }
     }
 }

@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Runtime.CompilerServices;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -12,6 +11,8 @@ namespace Blazored.SessionStorage
 
         Task<T> GetItemAsync<T>(string key);
 
+        IAsyncEnumerable<string> GetKeysAsync(CancellationToken cancellationToken = default);
+
         Task<string> KeyAsync(int index);
 
         Task<int> LengthAsync();
@@ -19,8 +20,6 @@ namespace Blazored.SessionStorage
         Task RemoveItemAsync(string key);
 
         Task SetItemAsync<T>(string key, T data);
-
-        IAsyncEnumerable<string> GetKeysAsync(CancellationToken cancellationToken = default);
 
         event EventHandler<ChangingEventArgs> Changing;
         event EventHandler<ChangedEventArgs> Changed;

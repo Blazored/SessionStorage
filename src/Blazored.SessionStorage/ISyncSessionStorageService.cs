@@ -9,6 +9,8 @@ namespace Blazored.SessionStorage
 
         T GetItem<T>(string key);
 
+        IEnumerable<string> GetKeys();
+
         string Key(int index);
 
         int Length();
@@ -16,8 +18,6 @@ namespace Blazored.SessionStorage
         void RemoveItem(string key);
 
         void SetItem<T>(string key, T data);
-
-        IEnumerable<string> GetKeys();
 
         event EventHandler<ChangingEventArgs> Changing;
         event EventHandler<ChangedEventArgs> Changed;

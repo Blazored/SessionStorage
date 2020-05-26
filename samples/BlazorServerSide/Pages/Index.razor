@@ -42,68 +42,68 @@
     </div>
 </div>
 
-@code {
+@code { string NameFromSessionStorage { get; set; }
+            int ItemsInSessionStorage { get; set; }
+            string Name { get; set; }
 
-        string NameFromSessionStorage { get; set; }
-        int ItemsInSessionStorage { get; set; }
-        string Name { get; set; }
-
-    protected override async Task OnAfterRenderAsync(bool firstRender)
-    {
-        if (firstRender)
-        {
-            await GetNameFromSessionStorage();
-            await GetSessionStorageLength();
-
-            sessionStorage.Changed += (sender, e) =>
+            protected override async Task OnAfterRenderAsync(bool firstRender)
             {
-                Console.WriteLine($"Value for key {e.Key} changed from {e.OldValue} to {e.NewValue}");
-            };
+                if (firstRender)
+                {
+                    await GetNameFromSessionStorage();
+                    await GetSessionStorageLength();
 
-            StateHasChanged();
-        }
-    }
+                    sessionStorage.Changed += async (sender, e) =>
+                    {
+                        Console.WriteLine($"Value for key {e.Key} changed from {e.OldValue} to {e.NewValue}");
+                        await foreach (var key in sessionStorage.GetKeysAsync())
+                        {
+                            Console.WriteLine($"Key: {key}");
+                        }
+                    };
 
-    async Task SaveName()
-    {
-        await sessionStorage.SetItemAsync("name", Name);
-        await GetNameFromSessionStorage();
-        await GetSessionStorageLength();
+                    StateHasChanged();
+                }
+            }
 
-        Name = "";
-    }
+            async Task SaveName()
+            {
+                await sessionStorage.SetItemAsync("name", Name);
+                await GetNameFromSessionStorage();
+                await GetSessionStorageLength();
 
-    async Task GetNameFromSessionStorage()
-    {
-        NameFromSessionStorage = await sessionStorage.GetItemAsync<string>("name");
+                Name = "";
+            }
 
-        if (string.IsNullOrEmpty(NameFromSessionStorage))
-        {
-            NameFromSessionStorage = "Nothing Saved";
-        }
-    }
+            async Task GetNameFromSessionStorage()
+            {
+                NameFromSessionStorage = await sessionStorage.GetItemAsync<string>("name");
 
-    async Task RemoveName()
-    {
-        await sessionStorage.RemoveItemAsync("name");
-        await GetNameFromSessionStorage();
-        await GetSessionStorageLength();
-    }
+                if (string.IsNullOrEmpty(NameFromSessionStorage))
+                {
+                    NameFromSessionStorage = "Nothing Saved";
+                }
+            }
 
-    async Task ClearSessionStorage()
-    {
-        Console.WriteLine("Calling Clear...");
-        await sessionStorage.ClearAsync();
-        Console.WriteLine("Getting name from session storage...");
-        await GetNameFromSessionStorage();
-        Console.WriteLine("Calling Get Length...");
-        await GetSessionStorageLength();
-    }
+            async Task RemoveName()
+            {
+                await sessionStorage.RemoveItemAsync("name");
+                await GetNameFromSessionStorage();
+                await GetSessionStorageLength();
+            }
 
-    async Task GetSessionStorageLength()
-    {
-        Console.WriteLine(await sessionStorage.LengthAsync());
-        ItemsInSessionStorage = await sessionStorage.LengthAsync();
-    }
+            async Task ClearSessionStorage()
+            {
+                Console.WriteLine("Calling Clear...");
+                await sessionStorage.ClearAsync();
+                Console.WriteLine("Getting name from session storage...");
+                await GetNameFromSessionStorage();
+                Console.WriteLine("Calling Get Length...");
+                await GetSessionStorageLength();
+            }
 
-}
+            async Task GetSessionStorageLength()
+            {
+                Console.WriteLine(await sessionStorage.LengthAsync());
+                ItemsInSessionStorage = await sessionStorage.LengthAsync();
+            } }
