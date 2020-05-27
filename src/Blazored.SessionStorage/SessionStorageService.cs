@@ -146,41 +146,33 @@ namespace Blazored.SessionStorage
             if (_jSInProcessRuntime == null)
                 throw new InvalidOperationException("IJSInProcessRuntime not available");
 
-            var length = Length();
+            var index = 0;
+            var key = Key(index++);
 
-            for (var index = 0; index < length; index++)
+            while (key != default)
             {
-                var key = Key(index);
-
-                if (key == default)
-                {
-                    yield break;
-                }
-
                 yield return key;
+                key = Key(index++);
             }
         }
 
         public async IAsyncEnumerable<string> GetKeysAsync([EnumeratorCancellation] CancellationToken cancellationToken)
         {
             Console.WriteLine("GetKeysAsync");
-            var length = await LengthAsync();
 
-            for (var index = 0; index < length; index++)
+            var index = 0;
+            var key = await KeyAsync(index++);
+
+            while (key != default)
             {
+                yield return key;
+
                 if (cancellationToken.IsCancellationRequested)
                 {
                     throw new TaskCanceledException();
                 }
 
-                var key = await KeyAsync(index);
-
-                if (key == default)
-                {
-                    yield break;
-                }
-
-                yield return key;
+                key = await KeyAsync(index++);
             }
         }
 
