@@ -165,12 +165,12 @@ namespace Blazored.SessionStorage
 
             while (key != default)
             {
-                yield return key;
-
                 if (cancellationToken.IsCancellationRequested)
                 {
                     throw new TaskCanceledException();
                 }
+
+                yield return key;
 
                 key = await KeyAsync(index++);
             }
