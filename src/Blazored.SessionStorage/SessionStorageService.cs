@@ -158,8 +158,6 @@ namespace Blazored.SessionStorage
 
         public async IAsyncEnumerable<string> GetKeysAsync([EnumeratorCancellation] CancellationToken cancellationToken)
         {
-            Console.WriteLine("GetKeysAsync");
-
             var index = 0;
             var key = await KeyAsync(index++);
 
