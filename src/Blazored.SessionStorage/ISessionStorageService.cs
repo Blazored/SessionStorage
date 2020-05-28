@@ -7,19 +7,19 @@ namespace Blazored.SessionStorage
 {
     public interface ISessionStorageService
     {
-        Task ClearAsync();
+        ValueTask ClearAsync();
 
-        Task<T> GetItemAsync<T>(string key);
+        ValueTask<T> GetItemAsync<T>(string key);
 
         IAsyncEnumerable<string> GetKeysAsync(CancellationToken cancellationToken = default);
 
-        Task<string> KeyAsync(int index);
+        ValueTask<string> KeyAsync(int index);
 
-        Task<int> LengthAsync();
+        ValueTask<int> LengthAsync();
 
-        Task RemoveItemAsync(string key);
+        ValueTask RemoveItemAsync(string key);
 
-        Task SetItemAsync<T>(string key, T data);
+        ValueTask SetItemAsync<T>(string key, T data);
 
         event EventHandler<ChangingEventArgs> Changing;
         event EventHandler<ChangedEventArgs> Changed;

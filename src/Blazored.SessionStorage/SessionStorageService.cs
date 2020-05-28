@@ -26,7 +26,7 @@ namespace Blazored.SessionStorage
             _jSInProcessRuntime = jSRuntime as IJSInProcessRuntime;
         }
 
-        public async Task SetItemAsync<T>(string key, T data)
+        public async ValueTask SetItemAsync<T>(string key, T data)
         {
             if (string.IsNullOrEmpty(key))
                 throw new ArgumentNullException(nameof(key));
@@ -43,7 +43,7 @@ namespace Blazored.SessionStorage
             RaiseOnChanged(key, e.OldValue, data);
         }
 
-        public async Task<T> GetItemAsync<T>(string key)
+        public async ValueTask<T> GetItemAsync<T>(string key)
         {
             if (string.IsNullOrEmpty(key))
                 throw new ArgumentNullException(nameof(key));
@@ -56,19 +56,19 @@ namespace Blazored.SessionStorage
             return JsonSerializer.Deserialize<T>(serialisedData, _jsonOptions);
         }
 
-        public async Task RemoveItemAsync(string key)
+        public ValueTask RemoveItemAsync(string key)
         {
             if (string.IsNullOrEmpty(key))
                 throw new ArgumentNullException(nameof(key));
 
-            await _jSRuntime.InvokeAsync<object>("sessionStorage.removeItem", key);
+            return _jSRuntime.InvokeVoidAsync("sessionStorage.removeItem", key);
         }
 
-        public async Task ClearAsync() => await _jSRuntime.InvokeAsync<object>("sessionStorage.clear");
+        public ValueTask ClearAsync() => _jSRuntime.InvokeVoidAsync("sessionStorage.clear");
 
-        public async Task<int> LengthAsync() => await _jSRuntime.InvokeAsync<int>("eval", "sessionStorage.length");
+        public ValueTask<int> LengthAsync() => _jSRuntime.InvokeAsync<int>("eval", "sessionStorage.length");
 
-        public async Task<string> KeyAsync(int index) => await _jSRuntime.InvokeAsync<string>("sessionStorage.key", index);
+        public ValueTask<string> KeyAsync(int index) => _jSRuntime.InvokeAsync<string>("sessionStorage.key", index);
 
         public void SetItem<T>(string key, T data)
         {
@@ -169,7 +169,6 @@ namespace Blazored.SessionStorage
                 }
 
                 yield return key;
-
                 key = await KeyAsync(index++);
             }
         }
