@@ -127,6 +127,7 @@ The APIs available are:
   - KeyAsync()
   - ContainsKeyAsync()
   - GetKeysAsync()
+  - GetValuesAsync()
   
 - synchronous via `ISyncSessionStorageService` (Synchronous methods are **only** available in Blazor WebAssembly):
   - SetItem()
@@ -137,5 +138,6 @@ The APIs available are:
   - Key()
   - ContainsKey()
   - GetKeys
+  - GetValues
 
 **Note:** Blazored.SessionStorage methods will handle the serialisation and de-serialisation of the data for you.

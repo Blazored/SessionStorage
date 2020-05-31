@@ -72,11 +72,11 @@ namespace Blazored.SessionStorage
 
         public void SetItem<T>(string key, T data)
         {
-            if (string.IsNullOrEmpty(key))
-                throw new ArgumentNullException(nameof(key));
-
             if (_jSInProcessRuntime == null)
                 throw new InvalidOperationException("IJSInProcessRuntime not available");
+
+            if (string.IsNullOrEmpty(key))
+                throw new ArgumentNullException(nameof(key));
 
             var e = RaiseOnChangingSync(key, data);
 
@@ -92,11 +92,11 @@ namespace Blazored.SessionStorage
 
         public T GetItem<T>(string key)
         {
-            if (string.IsNullOrEmpty(key))
-                throw new ArgumentNullException(nameof(key));
-
             if (_jSInProcessRuntime == null)
                 throw new InvalidOperationException("IJSInProcessRuntime not available");
+
+            if (string.IsNullOrEmpty(key))
+                throw new ArgumentNullException(nameof(key));
 
             var serialisedData = _jSInProcessRuntime.Invoke<string>("sessionStorage.getItem", key);
 
@@ -108,11 +108,11 @@ namespace Blazored.SessionStorage
 
         public void RemoveItem(string key)
         {
-            if (string.IsNullOrEmpty(key))
-                throw new ArgumentNullException(nameof(key));
-
             if (_jSInProcessRuntime == null)
                 throw new InvalidOperationException("IJSInProcessRuntime not available");
+
+            if (string.IsNullOrEmpty(key))
+                throw new ArgumentNullException(nameof(key));
 
             _jSInProcessRuntime.InvokeVoid("sessionStorage.removeItem", key);
         }
@@ -141,27 +141,67 @@ namespace Blazored.SessionStorage
             return _jSInProcessRuntime.Invoke<string>("sessionStorage.key", index);
         }
 
+        public IEnumerable<T> GetItems<T>()
+        {
+            if (_jSInProcessRuntime == null)
+                throw new InvalidOperationException("IJSInProcessRuntime not available");
+
+            var index = 0;
+
+            for (var key = Key(index++); key != default; key = Key(index++))
+            {
+                var serialisedData = _jSInProcessRuntime.Invoke<string>("sessionStorage.getItem", key);
+
+                if (!string.IsNullOrWhiteSpace(serialisedData))
+                {
+                    yield return JsonSerializer.Deserialize<T>(serialisedData, _jsonOptions);
+                }
+            }
+        }
+
         public IEnumerable<string> GetKeys()
         {
             if (_jSInProcessRuntime == null)
                 throw new InvalidOperationException("IJSInProcessRuntime not available");
 
             var index = 0;
-            var key = Key(index++);
 
-            while (key != default)
+            for (var key = Key(index++); key != default; key = Key(index++))
             {
                 yield return key;
-                key = Key(index++);
+            }
+        }
+
+        public async IAsyncEnumerable<T> GetValuesAsync<T>([EnumeratorCancellation] CancellationToken cancellationToken = default)
+        {
+            var index = 0;
+
+            for (var key = await KeyAsync(index++); key != default; key = await KeyAsync(index++))
+            {
+                if (cancellationToken.IsCancellationRequested)
+                {
+                    throw new TaskCanceledException();
+                }
+
+                var serialisedData = await _jSRuntime.InvokeAsync<string>("sessionStorage.getItem", key);
+
+                if (cancellationToken.IsCancellationRequested)
+                {
+                    throw new TaskCanceledException();
+                }
+
+                if (!string.IsNullOrWhiteSpace(serialisedData))
+                {
+                    yield return JsonSerializer.Deserialize<T>(serialisedData, _jsonOptions);
+                }
             }
         }
 
         public async IAsyncEnumerable<string> GetKeysAsync([EnumeratorCancellation] CancellationToken cancellationToken)
         {
             var index = 0;
-            var key = await KeyAsync(index++);
 
-            while (key != default)
+            for (var key = await KeyAsync(index++); key != default; key = await KeyAsync(index++))
             {
                 if (cancellationToken.IsCancellationRequested)
                 {
@@ -169,7 +209,6 @@ namespace Blazored.SessionStorage
                 }
 
                 yield return key;
-                key = await KeyAsync(index++);
             }
         }
 
