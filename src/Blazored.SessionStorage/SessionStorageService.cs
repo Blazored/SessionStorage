@@ -172,7 +172,7 @@ namespace Blazored.SessionStorage
             }
         }
 
-        public async IAsyncEnumerable<T> GetValuesAsync<T>([EnumeratorCancellation] CancellationToken cancellationToken = default)
+        public async IAsyncEnumerable<T> GetItemsAsync<T>([EnumeratorCancellation] CancellationToken cancellationToken = default)
         {
             var index = 0;
 

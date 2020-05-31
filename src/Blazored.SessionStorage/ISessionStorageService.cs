@@ -11,7 +11,7 @@ namespace Blazored.SessionStorage
 
         ValueTask<T> GetItemAsync<T>(string key);
 
-        IAsyncEnumerable<T> GetValuesAsync<T>(CancellationToken cancellationToken = default);
+        IAsyncEnumerable<T> GetItemsAsync<T>(CancellationToken cancellationToken = default);
 
         IAsyncEnumerable<string> GetKeysAsync(CancellationToken cancellationToken = default);
 
