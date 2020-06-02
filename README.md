@@ -127,7 +127,7 @@ The exception to this is code placed within the `@code` block. The reason for th
 is that all code placed within `@code` block is written to the declaration of the razor component type (not
 as part of the rendering pipeline)
 
-```
+```c#
 @inject Blazored.SessionStorage.ISessionStorageService sessionStorage
 
 @code {
