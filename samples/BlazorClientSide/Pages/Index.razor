@@ -41,11 +41,44 @@
     </div>
 </div>
 
-@code {
+<div class="row mt-2">
 
+    <div class="col-md-6">
+        <button class="btn btn-primary" @onclick="AddRandomValueToStorage">Add random value to storage</button>
+    </div>
+
+    <div class="col-md-6">
+        <ul>
+            @foreach (var key in KeysInStorage)
+            {
+                <li>@key</li>
+            }
+        </ul>
+    </div>
+
+</div>
+
+@code {
+    
     string NameFromSessionStorage { get; set; }
     int ItemsInSessionStorage { get; set; }
     string Name { get; set; }
+    List<string> KeysInStorage = new List<string>();
+
+    async Task AddRandomValueToStorage()
+    {
+        var value = $"{Guid.NewGuid():N}";
+        var key = $"Key_{value.Substring(6)}";
+
+        await sessionStorage.SetItemAsync(key, value);
+
+        KeysInStorage.Clear();
+
+        await foreach (var storageKey in sessionStorage.GetKeysAsync())
+        {
+            KeysInStorage.Add(storageKey);
+        }
+    }
 
     protected override async Task OnInitializedAsync()
     {
@@ -55,7 +88,7 @@
         sessionStorage.Changed += async (sender, e) =>
         {
             Console.WriteLine($"Value for key {e.Key} changed from {e.OldValue} to {e.NewValue}");
-            await foreach(var key in sessionStorage.GetKeysAsync())
+            await foreach (var key in sessionStorage.GetKeysAsync())
             {
                 Console.WriteLine($"Key: {key}");
             }
@@ -90,6 +123,7 @@
 
     async Task ClearSessionStorage()
     {
+        KeysInStorage.Clear();
         Console.WriteLine("Calling Clear...");
         await sessionStorage.ClearAsync();
         Console.WriteLine("Getting name from session storage...");
@@ -103,5 +137,4 @@
         Console.WriteLine(await sessionStorage.LengthAsync());
         ItemsInSessionStorage = await sessionStorage.LengthAsync();
     }
-
 }
