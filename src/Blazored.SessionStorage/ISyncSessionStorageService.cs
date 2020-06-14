@@ -10,6 +10,13 @@ namespace Blazored.SessionStorage
 
         string Key(int index);
 
+        /// <summary>
+        /// Checks if the key exists in Session Storage but does not check the value.
+        /// </summary>
+        /// <param name="key">name of the key</param>
+        /// <returns>True if the key exist, false otherwise</returns>
+        bool ContainKey(string key);
+
         int Length();
 
         void RemoveItem(string key);
