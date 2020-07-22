@@ -3,24 +3,36 @@
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
     <RazorLangVersion>3.0</RazorLangVersion>
-    <RootNamespace>Blazored.SessionStorage</RootNamespace>
 
-    <PackageId>Blazored.SessionStorage</PackageId>
-    <Version>1.0.12</Version>
     <Authors>Chris Sainty</Authors>
+    <Company></Company>
+    <Copyright>Copyright 2020 (c) Chris Sainty. All rights reserved.</Copyright>
+    
     <Description>A library to provide access to session storage in Blazor applications</Description>
-    <Copyright>Copyright 2018 (c) Chris Sainty. All rights reserved.</Copyright>
+    <IncludeSymbols>true</IncludeSymbols>
+    <SymbolPackageFormat>snupkg</SymbolPackageFormat>
+
+    <!-- NuGet settings -->
+    <PackageId>Blazored.SessionStorage</PackageId>
+    <PackageTags>Blazored;Blazor;Razor;Components;Session Storage;Browser Storage;ASP.NET Core;CSharp;Web</PackageTags>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
-    <PackageProjectUrl>https://github.com/blazored/SessionStorage</PackageProjectUrl>
-    <PackageIconUrl>https://avatars1.githubusercontent.com/u/39194025</PackageIconUrl>
-    <RepositoryUrl>https://github.com/blazored/SessionStorage</RepositoryUrl>
-    <PackageTags>Blazor SessionStorage Blazored Razor Components</PackageTags>
-    <Company />
+    <PackageProjectUrl>https://github.com/Blazored/SessionStorage</PackageProjectUrl>
+    <PackageIcon>icon.png</PackageIcon>
+    <RepositoryType>git</RepositoryType>
+    <RepositoryUrl>https://github.com/Blazored/SessionStorage</RepositoryUrl>
+
+    <!-- SourceLink settings -->
+    <PublishRepositoryUrl>true</PublishRepositoryUrl>
+    <EmbedUntrackedSources>true</EmbedUntrackedSources>
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Microsoft.AspNetCore.Components" Version="3.1.4" />
-    <PackageReference Include="Microsoft.AspNetCore.Components.Web" Version="3.1.4" />
+    <PackageReference Include="Microsoft.AspNetCore.Components" Version="3.1.6" />
+    <PackageReference Include="Microsoft.AspNetCore.Components.Web" Version="3.1.6" />
+  </ItemGroup>
+
+    <ItemGroup>
+    <None Include="icon.png" Pack="true" PackagePath="\" />
   </ItemGroup>
 
 </Project>
