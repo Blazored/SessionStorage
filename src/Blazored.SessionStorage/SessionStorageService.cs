@@ -14,6 +14,7 @@ namespace Blazored.SessionStorage
         private readonly JsonSerializerOptions _jsonOptions;
 
         public event EventHandler<ChangingEventArgs> Changing;
+
         public event EventHandler<ChangedEventArgs> Changed;
 
         public SessionStorageService(IJSRuntime jSRuntime, IOptions<SessionStorageOptions> options)
@@ -67,6 +68,8 @@ namespace Blazored.SessionStorage
 
         public async Task<string> KeyAsync(int index) => await _jSRuntime.InvokeAsync<string>("sessionStorage.key", index);
 
+        public async Task<bool> ContainKeyAsync(string key) => await _jSRuntime.InvokeAsync<bool>("sessionStorage.hasOwnProperty", key);
+
         public void SetItem<T>(string key, T data)
         {
             if (string.IsNullOrEmpty(key))
@@ -107,7 +110,7 @@ namespace Blazored.SessionStorage
         {
             if (string.IsNullOrEmpty(key))
                 throw new ArgumentNullException(nameof(key));
-                
+
             if (_jSInProcessRuntime == null)
                 throw new InvalidOperationException("IJSInProcessRuntime not available");
 
@@ -136,6 +139,14 @@ namespace Blazored.SessionStorage
                 throw new InvalidOperationException("IJSInProcessRuntime not available");
 
             return _jSInProcessRuntime.Invoke<string>("sessionStorage.key", index);
+        }
+
+        public bool ContainKey(string key)
+        {
+            if (_jSInProcessRuntime == null)
+                throw new InvalidOperationException("IJSInProcessRuntime not available");
+
+            return _jSInProcessRuntime.Invoke<bool>("sessionStorage.hasOwnProperty", key);
         }
 
         private async Task<ChangingEventArgs> RaiseOnChangingAsync(string key, object data)
