@@ -1,5 +1,8 @@
-﻿namespace Blazored.SessionStorage
+﻿using System.Diagnostics.CodeAnalysis;
+
+namespace Blazored.SessionStorage
 {
+    [ExcludeFromCodeCoverage]
     public class ChangedEventArgs
     {
         public string Key { get; set; }

@@ -1,20 +1,18 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk.Razor">
 
   <PropertyGroup>
-    <TargetFramework>netstandard2.0</TargetFramework>
-    <RazorLangVersion>3.0</RazorLangVersion>
+    <TargetFrameworks>netstandard2.1;net5.0</TargetFrameworks>
 
     <Authors>Chris Sainty</Authors>
     <Company></Company>
-    <Copyright>Copyright 2020 (c) Chris Sainty. All rights reserved.</Copyright>
-    
+    <Copyright>Copyright 2020 (c) Chris Sainty. All rights reserved.</Copyright> 
     <Description>A library to provide access to session storage in Blazor applications</Description>
     <IncludeSymbols>true</IncludeSymbols>
     <SymbolPackageFormat>snupkg</SymbolPackageFormat>
 
     <!-- NuGet settings -->
     <PackageId>Blazored.SessionStorage</PackageId>
-    <PackageTags>Blazored;Blazor;Razor;Components;Session Storage;Browser Storage;ASP.NET Core;CSharp;Web</PackageTags>
+    <PackageTags>Blazored;Blazor;Razor;Components;SessionStorage;Session Storage;ASP.NET Core;CSharp;Web</PackageTags>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <PackageProjectUrl>https://github.com/Blazored/SessionStorage</PackageProjectUrl>
     <PackageIcon>icon.png</PackageIcon>
@@ -24,15 +22,34 @@
     <!-- SourceLink settings -->
     <PublishRepositoryUrl>true</PublishRepositoryUrl>
     <EmbedUntrackedSources>true</EmbedUntrackedSources>
+    <SignAssembly>true</SignAssembly>
+    <AssemblyOriginatorKeyFile>Blazored.SessionStorage.snk</AssemblyOriginatorKeyFile>
   </PropertyGroup>
 
-  <ItemGroup>
-    <PackageReference Include="Microsoft.AspNetCore.Components" Version="3.1.6" />
-    <PackageReference Include="Microsoft.AspNetCore.Components.Web" Version="3.1.6" />
+  <PropertyGroup Condition="'$(TargetFramework)' == 'netstandard2.1' OR '$(TargetFramework)' == 'netcoreapp3.1'">
+    <RazorLangVersion>3.0</RazorLangVersion>
+  </PropertyGroup>
+
+  <ItemGroup Condition="'$(TargetFramework)' == 'net5.0'">
+    <SupportedPlatform Include="browser" />
   </ItemGroup>
 
-    <ItemGroup>
+  <ItemGroup Condition="'$(TargetFramework)' == 'netstandard2.1' OR '$(TargetFramework)' == 'netcoreapp3.1'">
+    <PackageReference Include="Microsoft.AspNetCore.Components" Version="$(DotNet3Version)" />
+    <PackageReference Include="Microsoft.AspNetCore.Components.Web" Version="$(DotNet3Version)" />
+  </ItemGroup>
+  
+  <ItemGroup Condition="'$(TargetFramework)' == 'net5.0'">
+    <PackageReference Include="Microsoft.AspNetCore.Components" Version="$(DotNet5Version)" />
+    <PackageReference Include="Microsoft.AspNetCore.Components.Web" Version="$(DotNet5Version)" />
+  </ItemGroup>
+
+  <ItemGroup>
     <None Include="icon.png" Pack="true" PackagePath="\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="bunit.core" Version="1.1.5" />
   </ItemGroup>
 
 </Project>

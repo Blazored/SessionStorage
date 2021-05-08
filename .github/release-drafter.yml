@@ -1,9 +1,5 @@
-name-template: 'v$NEXT_PATCH_VERSION'
+name-template: 'v$NEXT_PATCH_VERSION 🌈'
 tag-template: 'v$NEXT_PATCH_VERSION'
-template: |
-  # What's Changed
-
-  $CHANGES
 categories:
   - title: '🚀 Features'
     label: 'Feature'
@@ -14,3 +10,7 @@ categories:
   - title: '📖 Documentation'
     label: 'Docs'
 change-template: '- (#$NUMBER) $TITLE - Thanks to @$AUTHOR '
+template: |
+  # What's Changed
+
+  $CHANGES
