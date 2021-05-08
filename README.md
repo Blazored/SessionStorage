@@ -1,4 +1,4 @@
-[![Nuget version](https://img.shields.io/nuget/v/blazored.localstorage.svg?logo=nuget)](https://www.nuget.org/packages/Blazored.SessionStorage/)
+[![Nuget version](https://img.shields.io/nuget/v/Blazored.SessionStorage.svg?logo=nuget)](https://www.nuget.org/packages/Blazored.SessionStorage/)
 [![Nuget downloads](https://img.shields.io/nuget/dt/Blazored.SessionStorage?logo=nuget)](https://www.nuget.org/packages/Blazored.SessionStorage/)
 ![Build & Test Main](https://github.com/Blazored/SessionStorage/workflows/Build%20&%20Test%20Main/badge.svg)
 
