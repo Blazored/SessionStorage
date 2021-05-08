@@ -10,9 +10,9 @@
     <div class="col-md-4">
         <h5>Add Item to session storage</h5>
         <div class="input-group">
-            <input class="form-control" type="text" placeholder="Enter a value" @bind="Name" />
+            <input id="Name" class="form-control" type="text" placeholder="Enter a value" @bind="Name" />
             <div class="input-group-append">
-                <button class="btn btn-primary" @onclick="SaveName">Save</button>
+                <button id="NameButton" class="btn btn-primary" @onclick="SaveName">Save</button>
             </div>
         </div>
     </div>
@@ -28,7 +28,7 @@
     </div>
 </div>
 
-<div class="row">
+<div class="row mb-5">
 
     <div class="col-md-4">
         <h5>Value Read from session storage</h5>
@@ -39,17 +39,32 @@
         <h5>Items in session storage</h5>
         @ItemsInSessionStorage
     </div>
+
+    <div class="col-md-4">
+        <h5>Item exist in session storage</h5>@(ItemExist)
+    </div>
+</div>
+
+<div class="row">
+
+    <div class="col-md-4">
+        <h5>String Read from session storage</h5>
+        @StringFromSessionStorage
+    </div>
 </div>
 
 @code {
 
     string NameFromSessionStorage { get; set; }
+    string StringFromSessionStorage { get; set; }
     int ItemsInSessionStorage { get; set; }
     string Name { get; set; }
+    bool ItemExist { get; set; }
 
     protected override async Task OnInitializedAsync()
     {
         await GetNameFromSessionStorage();
+        await GetStringFromSessionStorage();
         await GetSessionStorageLength();
 
         sessionStorage.Changed += (sender, e) =>
@@ -62,6 +77,7 @@
     {
         await sessionStorage.SetItemAsync("name", Name);
         await GetNameFromSessionStorage();
+        await GetStringFromSessionStorage();
         await GetSessionStorageLength();
 
         Name = "";
@@ -69,11 +85,29 @@
 
     async Task GetNameFromSessionStorage()
     {
-        NameFromSessionStorage = await sessionStorage.GetItemAsync<string>("name");
-
-        if (string.IsNullOrEmpty(NameFromSessionStorage))
+        try
         {
-            NameFromSessionStorage = "Nothing Saved";
+            NameFromSessionStorage = await sessionStorage.GetItemAsync<string>("name");
+
+            if (string.IsNullOrEmpty(NameFromSessionStorage))
+            {
+                NameFromSessionStorage = "Nothing Saved";
+            }
+        }
+        catch(Exception)
+        {
+            Console.WriteLine("error reading 'name'");
+        }
+    }
+
+
+    async Task GetStringFromSessionStorage()
+    {
+        StringFromSessionStorage = await sessionStorage.GetItemAsStringAsync("name");
+
+        if (string.IsNullOrEmpty(StringFromSessionStorage))
+        {
+            StringFromSessionStorage = "Nothing Saved";
         }
     }
 
@@ -81,6 +115,7 @@
     {
         await sessionStorage.RemoveItemAsync("name");
         await GetNameFromSessionStorage();
+        await GetStringFromSessionStorage();
         await GetSessionStorageLength();
     }
 
@@ -90,6 +125,7 @@
         await sessionStorage.ClearAsync();
         Console.WriteLine("Getting name from session storage...");
         await GetNameFromSessionStorage();
+        await GetStringFromSessionStorage();
         Console.WriteLine("Calling Get Length...");
         await GetSessionStorageLength();
     }
@@ -98,6 +134,7 @@
     {
         Console.WriteLine(await sessionStorage.LengthAsync());
         ItemsInSessionStorage = await sessionStorage.LengthAsync();
+        ItemExist = await sessionStorage.ContainKeyAsync("name");
     }
 
 }

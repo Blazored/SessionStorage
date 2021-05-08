@@ -1,6 +1,6 @@
-﻿using System.Threading.Tasks;
+﻿using Blazored.SessionStorage;
 using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
-using Blazored.SessionStorage;
+using System.Threading.Tasks;
 
 namespace BlazorWebAssembly
 {
@@ -9,7 +9,8 @@ namespace BlazorWebAssembly
         public static async Task Main(string[] args)
         {
             var builder = WebAssemblyHostBuilder.CreateDefault(args);
-            builder.RootComponents.Add<App>("app");
+            builder.RootComponents.Add<App>("#app");
+
             builder.Services.AddBlazoredSessionStorage();
 
             await builder.Build().RunAsync();
