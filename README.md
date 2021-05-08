@@ -5,7 +5,7 @@
 # Blazored SessionStorage
 Blazored SessionStorage is a library that provides access to the browsers session storage APIs for Blazor applications. An additional benefit of using this library is that it will handle serializing and deserializing values when saving or retrieving them.
 
-## Breaking Change (v3 > v4): JsonSerializerOptions
+## Breaking Change (v1 > v2): JsonSerializerOptions
 From v4 onwards we use the default the `JsonSerializerOptions` for `System.Text.Json` instead of using custom ones. This will cause values saved to session storage with v3 to break things.
 To retain the old settings use the following configuration when adding Blazored SessionStorage to the DI container:
 
