@@ -1,5 +1,6 @@
-﻿using Microsoft.JSInterop;
+using Microsoft.JSInterop;
 using System;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace Blazored.SessionStorage
@@ -15,26 +16,26 @@ namespace Blazored.SessionStorage
             _jSInProcessRuntime = jSRuntime as IJSInProcessRuntime;
         }
 
-        public ValueTask ClearAsync()
-            => _jSRuntime.InvokeVoidAsync("sessionStorage.clear");
+        public ValueTask ClearAsync(CancellationToken? cancellationToken = null)
+            => _jSRuntime.InvokeVoidAsync("sessionStorage.clear", cancellationToken ?? CancellationToken.None);
 
-        public ValueTask<string> GetItemAsync(string key)
-            => _jSRuntime.InvokeAsync<string>("sessionStorage.getItem", key);
+        public ValueTask<string> GetItemAsync(string key, CancellationToken? cancellationToken = null)
+            => _jSRuntime.InvokeAsync<string>("sessionStorage.getItem", cancellationToken ?? CancellationToken.None, key);
 
-        public ValueTask<string> KeyAsync(int index)
-            => _jSRuntime.InvokeAsync<string>("sessionStorage.key", index);
+        public ValueTask<string> KeyAsync(int index, CancellationToken? cancellationToken = null)
+            => _jSRuntime.InvokeAsync<string>("sessionStorage.key", cancellationToken ?? CancellationToken.None, index);
 
-        public ValueTask<bool> ContainKeyAsync(string key)
-            => _jSRuntime.InvokeAsync<bool>("sessionStorage.hasOwnProperty", key);
+        public ValueTask<bool> ContainKeyAsync(string key, CancellationToken? cancellationToken = null)
+            => _jSRuntime.InvokeAsync<bool>("sessionStorage.hasOwnProperty", cancellationToken ?? CancellationToken.None, key);
 
-        public ValueTask<int> LengthAsync()
-            => _jSRuntime.InvokeAsync<int>("eval", "sessionStorage.length");
+        public ValueTask<int> LengthAsync(CancellationToken? cancellationToken = null)
+            => _jSRuntime.InvokeAsync<int>("eval", cancellationToken ?? CancellationToken.None, "sessionStorage.length");
 
-        public ValueTask RemoveItemAsync(string key)
-            => _jSRuntime.InvokeVoidAsync("sessionStorage.removeItem", key);
+        public ValueTask RemoveItemAsync(string key, CancellationToken? cancellationToken = null)
+            => _jSRuntime.InvokeVoidAsync("sessionStorage.removeItem", cancellationToken ?? CancellationToken.None, key);
 
-        public ValueTask SetItemAsync(string key, string data)
-            => _jSRuntime.InvokeVoidAsync("sessionStorage.setItem", key, data);
+        public ValueTask SetItemAsync(string key, string data, CancellationToken? cancellationToken = null)
+            => _jSRuntime.InvokeVoidAsync("sessionStorage.setItem", cancellationToken ?? CancellationToken.None, key, data);
 
         public void Clear()
         {

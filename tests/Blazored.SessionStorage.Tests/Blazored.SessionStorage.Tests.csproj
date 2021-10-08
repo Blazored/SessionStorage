@@ -27,6 +27,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\src\Blazored.SessionStorage.TestExtensions\Blazored.SessionStorage.TestExtensions.csproj" />
     <ProjectReference Include="..\..\src\Blazored.SessionStorage\Blazored.SessionStorage.csproj" />
   </ItemGroup>
 

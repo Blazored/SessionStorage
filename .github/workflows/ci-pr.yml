@@ -5,7 +5,7 @@ on:
     branches: [ main ]
 
 env:
-    NETCORE_VERSION: '5.0.202'
+    NETCORE_VERSION: '5.0.x'
     PROJECT_NAME: Blazored.SessionStorage
 
 jobs:
@@ -23,8 +23,11 @@ jobs:
     - name: Restoring packages...
       run: dotnet restore
 
-    - name: Building project...
+    - name: Building Session Storage...
       run: dotnet build --configuration Release --no-restore src/$PROJECT_NAME/$PROJECT_NAME.csproj
 
+    - name: Build Session Storage Test Extensions
+      run: dotnet build -c Release --no-restore src/$PROJECT_NAME.TestExtensions/$PROJECT_NAME.TestExtensions.csproj
+
     - name: Testing...
-      run: dotnet test --no-restore --verbosity normal
+      run: dotnet test -c Release --no-restore --verbosity normal tests/$PROJECT_NAME.Tests

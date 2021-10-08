@@ -1,10 +1,10 @@
-﻿using System;
+using System;
 using System.Text.Json;
 using System.Threading.Tasks;
 using Blazored.SessionStorage.JsonConverters;
 using Blazored.SessionStorage.Serialization;
 using Blazored.SessionStorage.StorageOptions;
-using Blazored.SessionStorage.Testing;
+using Blazored.SessionStorage.TestExtensions;
 using Blazored.SessionStorage.Tests.TestAssets;
 using Microsoft.Extensions.Options;
 using Moq;
