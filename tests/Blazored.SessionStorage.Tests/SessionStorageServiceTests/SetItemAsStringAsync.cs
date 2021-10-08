@@ -4,7 +4,7 @@ using System.Threading.Tasks;
 using Blazored.SessionStorage.JsonConverters;
 using Blazored.SessionStorage.Serialization;
 using Blazored.SessionStorage.StorageOptions;
-using Blazored.SessionStorage.Testing;
+using Blazored.SessionStorage.TestExtensions;
 using Microsoft.Extensions.Options;
 using Moq;
 using Xunit;

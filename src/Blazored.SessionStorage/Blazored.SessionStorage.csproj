@@ -35,12 +35,10 @@
   </ItemGroup>
 
   <ItemGroup Condition="'$(TargetFramework)' == 'netstandard2.1' OR '$(TargetFramework)' == 'netcoreapp3.1'">
-    <PackageReference Include="Microsoft.AspNetCore.Components" Version="$(DotNet3Version)" />
     <PackageReference Include="Microsoft.AspNetCore.Components.Web" Version="$(DotNet3Version)" />
   </ItemGroup>
   
   <ItemGroup Condition="'$(TargetFramework)' == 'net5.0'">
-    <PackageReference Include="Microsoft.AspNetCore.Components" Version="$(DotNet5Version)" />
     <PackageReference Include="Microsoft.AspNetCore.Components.Web" Version="$(DotNet5Version)" />
   </ItemGroup>
 
@@ -49,7 +47,19 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="bunit.core" Version="1.1.5" />
+    <AssemblyAttribute Include="System.Runtime.CompilerServices.InternalsVisibleToAttribute">
+      <_Parameter1>
+        Blazored.SessionStorage.TestExtensions, PublicKey=00240000048000009400000006020000002400005253413100040000010001007527e122cc36dc13c695a4f43b7c2da3f631aed456ed309140c0d52262323e25d84bef7feddc8bd29cfe46ec652186cb10e059eedabf2ff000b977a2376a613dccfb092de6c243e0888db4c66a084124b2c1799bda4bbb2f70fed0382fc1cbdafa6dc0f4baccdc2cee55234f8a5ad76645c315523fee5352d9f01036e48b13e3
+      </_Parameter1>
+    </AssemblyAttribute>
+  </ItemGroup>
+
+  <ItemGroup>
+    <AssemblyAttribute Include="System.Runtime.CompilerServices.InternalsVisibleToAttribute">
+      <_Parameter1>
+        Blazored.SessionStorage.Tests, PublicKey=00240000048000009400000006020000002400005253413100040000010001007527e122cc36dc13c695a4f43b7c2da3f631aed456ed309140c0d52262323e25d84bef7feddc8bd29cfe46ec652186cb10e059eedabf2ff000b977a2376a613dccfb092de6c243e0888db4c66a084124b2c1799bda4bbb2f70fed0382fc1cbdafa6dc0f4baccdc2cee55234f8a5ad76645c315523fee5352d9f01036e48b13e3
+      </_Parameter1>
+    </AssemblyAttribute>
   </ItemGroup>
 
 </Project>

@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 16
-VisualStudioVersion = 16.0.28531.58
+# Visual Studio Version 17
+VisualStudioVersion = 17.0.31717.71
 MinimumVisualStudioVersion = 15.0.26124.0
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Blazored.SessionStorage", "src\Blazored.SessionStorage\Blazored.SessionStorage.csproj", "{EFA12DC3-35DE-449C-88F2-2BD7576CAF2C}"
 EndProject
@@ -13,6 +13,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BlazorServer", "samples\Bla
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{9170D7A9-70CE-48E3-88A3-F11D2983103E}"
 	ProjectSection(SolutionItems) = preProject
+		.gitignore = .gitignore
 		.github\workflows\ci-main.yml = .github\workflows\ci-main.yml
 		.github\workflows\ci-pr.yml = .github\workflows\ci-pr.yml
 		README.md = README.md
@@ -23,7 +24,9 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{B82A5126
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Blazored.SessionStorage.Tests", "tests\Blazored.SessionStorage.Tests\Blazored.SessionStorage.Tests.csproj", "{5A6A013E-325D-4A5F-B2FA-659B4FD2BDBC}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "bUnitExample", "samples\bUnitExample\bUnitExample.csproj", "{10F6FB83-3135-4B73-B0EB-D008A31AE8FA}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "bUnitExample", "samples\bUnitExample\bUnitExample.csproj", "{10F6FB83-3135-4B73-B0EB-D008A31AE8FA}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Blazored.SessionStorage.TestExtensions", "src\Blazored.SessionStorage.TestExtensions\Blazored.SessionStorage.TestExtensions.csproj", "{528AE63D-0043-4A63-9151-92107397EE02}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -95,6 +98,18 @@ Global
 		{10F6FB83-3135-4B73-B0EB-D008A31AE8FA}.Release|x64.Build.0 = Release|Any CPU
 		{10F6FB83-3135-4B73-B0EB-D008A31AE8FA}.Release|x86.ActiveCfg = Release|Any CPU
 		{10F6FB83-3135-4B73-B0EB-D008A31AE8FA}.Release|x86.Build.0 = Release|Any CPU
+		{528AE63D-0043-4A63-9151-92107397EE02}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{528AE63D-0043-4A63-9151-92107397EE02}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{528AE63D-0043-4A63-9151-92107397EE02}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{528AE63D-0043-4A63-9151-92107397EE02}.Debug|x64.Build.0 = Debug|Any CPU
+		{528AE63D-0043-4A63-9151-92107397EE02}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{528AE63D-0043-4A63-9151-92107397EE02}.Debug|x86.Build.0 = Debug|Any CPU
+		{528AE63D-0043-4A63-9151-92107397EE02}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{528AE63D-0043-4A63-9151-92107397EE02}.Release|Any CPU.Build.0 = Release|Any CPU
+		{528AE63D-0043-4A63-9151-92107397EE02}.Release|x64.ActiveCfg = Release|Any CPU
+		{528AE63D-0043-4A63-9151-92107397EE02}.Release|x64.Build.0 = Release|Any CPU
+		{528AE63D-0043-4A63-9151-92107397EE02}.Release|x86.ActiveCfg = Release|Any CPU
+		{528AE63D-0043-4A63-9151-92107397EE02}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -5,8 +5,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="bunit.core" Version="1.1.5" />
-    <PackageReference Include="bunit.web" Version="1.1.5" />
+    <PackageReference Include="bunit.web" Version="1.2.49" />
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="16.9.4" />
     <PackageReference Include="xunit" Version="2.4.1" />
     <PackageReference Include="xunit.runner.visualstudio" Version="2.4.3">
@@ -20,6 +19,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\src\Blazored.SessionStorage.TestExtensions\Blazored.SessionStorage.TestExtensions.csproj" />
     <ProjectReference Include="..\BlazorWebAssembly\BlazorWebAssembly.csproj" />
   </ItemGroup>
 

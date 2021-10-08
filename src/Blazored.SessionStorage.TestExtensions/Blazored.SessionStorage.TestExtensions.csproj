@@ -1,0 +1,53 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFrameworks>netstandard2.1;net5.0</TargetFrameworks>
+
+    <Authors>Chris Sainty</Authors>
+    <Company></Company>
+    <Copyright>Copyright 2020 (c) Chris Sainty. All rights reserved.</Copyright>
+    <Description>A testing library to provide helper extensions for Blazored.SessionStorage</Description>
+    <IncludeSymbols>true</IncludeSymbols>
+    <SymbolPackageFormat>snupkg</SymbolPackageFormat>
+
+    <!-- NuGet settings -->
+    <PackageId>Blazored.SessionStorage.TestExtensions</PackageId>
+    <PackageTags>Blazored;Blazor;Razor;Components;SessionStorage;Session Storage;ASP.NET Core;CSharp;Web</PackageTags>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
+    <PackageProjectUrl>https://github.com/Blazored/SessionStorage</PackageProjectUrl>
+    <PackageIcon>icon.png</PackageIcon>
+    <RepositoryType>git</RepositoryType>
+    <RepositoryUrl>https://github.com/Blazored/SessionStorage</RepositoryUrl>
+
+    <!-- SourceLink settings -->
+    <PublishRepositoryUrl>true</PublishRepositoryUrl>
+    <EmbedUntrackedSources>true</EmbedUntrackedSources>    
+    <SignAssembly>true</SignAssembly>
+    <AssemblyOriginatorKeyFile>Blazored.SessionStorage.snk</AssemblyOriginatorKeyFile>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Include="..\Blazored.SessionStorage\icon.png" Pack="true" PackagePath="\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="bunit.core" Version="1.2.49" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Blazored.SessionStorage\Blazored.SessionStorage.csproj" />
+  </ItemGroup>
+  
+  <ItemGroup>
+    <AssemblyAttribute Include="System.Runtime.CompilerServices.InternalsVisibleToAttribute">
+      <_Parameter1>
+        Blazored.SessionStorage.Tests, PublicKey=00240000048000009400000006020000002400005253413100040000010001007527e122cc36dc13c695a4f43b7c2da3f631aed456ed309140c0d52262323e25d84bef7feddc8bd29cfe46ec652186cb10e059eedabf2ff000b977a2376a613dccfb092de6c243e0888db4c66a084124b2c1799bda4bbb2f70fed0382fc1cbdafa6dc0f4baccdc2cee55234f8a5ad76645c315523fee5352d9f01036e48b13e3
+      </_Parameter1>
+    </AssemblyAttribute>
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="..\Blazored.SessionStorage\Blazored.SessionStorage.snk" Link="Blazored.SessionStorage.snk" />
+  </ItemGroup>
+
+</Project>
