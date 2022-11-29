@@ -12,14 +12,15 @@ From v4 onwards we use the default the `JsonSerializerOptions` for `System.Text.
 To retain the old settings use the following configuration when adding Blazored SessionStorage to the DI container:
 
 ```csharp
-builder.Services.AddBlazoredSessionStorage(config =>
-    config.JsonSerializerOptions.DictionaryKeyPolicy = JsonNamingPolicy.CamelCase;
-    config.JsonSerializerOptions.IgnoreNullValues = true;
-    config.JsonSerializerOptions.IgnoreReadOnlyProperties = true;
-    config.JsonSerializerOptions.PropertyNameCaseInsensitive = true;
-    config.JsonSerializerOptions.PropertyNamingPolicy = JsonNamingPolicy.CamelCase;
-    config.JsonSerializerOptions.ReadCommentHandling = JsonCommentHandling.Skip;
-    config.JsonSerializerOptions.WriteIndented = false;
+builder.Services.AddBlazoredSessionStorage(config => {
+        config.JsonSerializerOptions.DictionaryKeyPolicy = JsonNamingPolicy.CamelCase;
+        config.JsonSerializerOptions.IgnoreNullValues = true;
+        config.JsonSerializerOptions.IgnoreReadOnlyProperties = true;
+        config.JsonSerializerOptions.PropertyNameCaseInsensitive = true;
+        config.JsonSerializerOptions.PropertyNamingPolicy = JsonNamingPolicy.CamelCase;
+        config.JsonSerializerOptions.ReadCommentHandling = JsonCommentHandling.Skip;
+        config.JsonSerializerOptions.WriteIndented = false;
+    }
 );
 ```
 
