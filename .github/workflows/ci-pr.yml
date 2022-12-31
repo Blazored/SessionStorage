@@ -5,7 +5,7 @@ on:
     branches: [ main ]
 
 env:
-    NETCORE_VERSION: '5.0.x'
+    NETCORE_VERSION: '7.0.x'
     PROJECT_NAME: Blazored.SessionStorage
 
 jobs:
