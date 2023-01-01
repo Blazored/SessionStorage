@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk.Razor">
 
   <PropertyGroup>
-    <TargetFrameworks>netstandard2.1;net7.0</TargetFrameworks>
+    <TargetFrameworks>net6.0;net7.0</TargetFrameworks>
 
     <Authors>Chris Sainty</Authors>
     <Company></Company>
@@ -26,20 +26,16 @@
     <AssemblyOriginatorKeyFile>Blazored.SessionStorage.snk</AssemblyOriginatorKeyFile>
   </PropertyGroup>
 
-  <PropertyGroup Condition="'$(TargetFramework)' == 'netstandard2.1' OR '$(TargetFramework)' == 'netcoreapp3.1'">
-    <RazorLangVersion>3.0</RazorLangVersion>
-  </PropertyGroup>
-
-  <ItemGroup Condition="'$(TargetFramework)' == 'net7.0'">
+  <ItemGroup>
     <SupportedPlatform Include="browser" />
   </ItemGroup>
 
-  <ItemGroup Condition="'$(TargetFramework)' == 'netstandard2.1' OR '$(TargetFramework)' == 'netcoreapp3.1'">
-    <PackageReference Include="Microsoft.AspNetCore.Components.Web" Version="3.1.31" />
+  <ItemGroup Condition="'$(TargetFramework)' == 'net6.0'">
+    <PackageReference Include="Microsoft.AspNetCore.Components.Web" Version="$(DotNet6Version)" />
   </ItemGroup>
-  
+
   <ItemGroup Condition="'$(TargetFramework)' == 'net7.0'">
-    <PackageReference Include="Microsoft.AspNetCore.Components.Web" Version="7.0.0" />
+    <PackageReference Include="Microsoft.AspNetCore.Components.Web" Version="$(DotNet7Version)" />
   </ItemGroup>
 
   <ItemGroup>

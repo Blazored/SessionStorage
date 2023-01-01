@@ -9,48 +9,47 @@ using Microsoft.Extensions.Options;
 using Moq;
 using Xunit;
 
-namespace Blazored.SessionStorage.Tests.SessionStorageServiceTests
+namespace Blazored.SessionStorage.Tests.SessionStorageServiceTests;
+
+public class LengthAsync
 {
-    public class LengthAsync
+    private readonly SessionStorageService _sut;
+
+    public LengthAsync()
     {
-        private readonly SessionStorageService _sut;
+        var mockOptions = new Mock<IOptions<SessionStorageOptions>>();
+        var jsonOptions = new JsonSerializerOptions();
+        jsonOptions.Converters.Add(new TimespanJsonConverter());
+        mockOptions.Setup(u => u.Value).Returns(new SessionStorageOptions());
+        IJsonSerializer serializer = new SystemTextJsonSerializer(mockOptions.Object);
+        IStorageProvider storageProvider = new InMemoryStorageProvider();
+        _sut = new SessionStorageService(storageProvider, serializer);
+    }
 
-        public LengthAsync()
-        {
-            var mockOptions = new Mock<IOptions<SessionStorageOptions>>();
-            var jsonOptions = new JsonSerializerOptions();
-            jsonOptions.Converters.Add(new TimespanJsonConverter());
-            mockOptions.Setup(u => u.Value).Returns(new SessionStorageOptions());
-            IJsonSerializer serializer = new SystemTextJsonSerializer(mockOptions.Object);
-            IStorageProvider storageProvider = new InMemoryStorageProvider();
-            _sut = new SessionStorageService(storageProvider, serializer);
-        }
+    [Fact]
+    public async Task ReturnsZeroWhenStoreIsEmpty()
+    {
+        // Act
+        var itemCount = await _sut.LengthAsync();
 
-        [Fact]
-        public async Task ReturnsZeroWhenStoreIsEmpty()
-        {
-            // Act
-            var itemCount = await _sut.LengthAsync();
+        // Assert
+        Assert.Equal(0, itemCount);
+    }
 
-            // Assert
-            Assert.Equal(0, itemCount);
-        }
-
-        [Fact]
-        public async Task ReturnsNumberOfItemsInStore()
-        {
-            // Arrange
-            var item1 = new TestObject(1, "Jane Smith");
-            var item2 = new TestObject(2, "John Smith");
+    [Fact]
+    public async Task ReturnsNumberOfItemsInStore()
+    {
+        // Arrange
+        var item1 = new TestObject(1, "Jane Smith");
+        var item2 = new TestObject(2, "John Smith");
             
-            await _sut.SetItemAsync("Item1", item1);
-            await _sut.SetItemAsync("Item2", item2);
+        await _sut.SetItemAsync("Item1", item1);
+        await _sut.SetItemAsync("Item2", item2);
 
-            // Act
-            var itemCount = await _sut.LengthAsync();
+        // Act
+        var itemCount = await _sut.LengthAsync();
 
-            // Assert
-            Assert.Equal(2, itemCount);
-        }
+        // Assert
+        Assert.Equal(2, itemCount);
     }
 }

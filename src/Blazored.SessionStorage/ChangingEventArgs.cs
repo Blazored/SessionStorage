@@ -1,11 +1,10 @@
 ﻿using System;
 using System.Diagnostics.CodeAnalysis;
 
-namespace Blazored.SessionStorage
+namespace Blazored.SessionStorage;
+
+[ExcludeFromCodeCoverage]
+public class ChangingEventArgs : ChangedEventArgs
 {
-    [ExcludeFromCodeCoverage]
-    public class ChangingEventArgs : ChangedEventArgs
-    {
-        public bool Cancel { get; set; }
-    }
+    public bool Cancel { get; set; }
 }

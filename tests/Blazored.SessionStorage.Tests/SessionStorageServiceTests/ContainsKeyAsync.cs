@@ -9,49 +9,48 @@ using Microsoft.Extensions.Options;
 using Moq;
 using Xunit;
 
-namespace Blazored.SessionStorage.Tests.SessionStorageServiceTests
+namespace Blazored.SessionStorage.Tests.SessionStorageServiceTests;
+
+public class ContainsKeyAsync
 {
-    public class ContainsKeyAsync
+    private readonly SessionStorageService _sut;
+
+    public ContainsKeyAsync()
     {
-        private readonly SessionStorageService _sut;
+        var mockOptions = new Mock<IOptions<SessionStorageOptions>>();
+        var jsonOptions = new JsonSerializerOptions();
+        jsonOptions.Converters.Add(new TimespanJsonConverter());
+        mockOptions.Setup(u => u.Value).Returns(new SessionStorageOptions());
+        IJsonSerializer serializer = new SystemTextJsonSerializer(mockOptions.Object);
+        IStorageProvider storageProvider = new InMemoryStorageProvider();
+        _sut = new SessionStorageService(storageProvider, serializer);
+    }
 
-        public ContainsKeyAsync()
-        {
-            var mockOptions = new Mock<IOptions<SessionStorageOptions>>();
-            var jsonOptions = new JsonSerializerOptions();
-            jsonOptions.Converters.Add(new TimespanJsonConverter());
-            mockOptions.Setup(u => u.Value).Returns(new SessionStorageOptions());
-            IJsonSerializer serializer = new SystemTextJsonSerializer(mockOptions.Object);
-            IStorageProvider storageProvider = new InMemoryStorageProvider();
-            _sut = new SessionStorageService(storageProvider, serializer);
-        }
-
-        [Fact]
-        public async Task ReturnsTrue_When_KeyExistsInStore()
-        {
-            // Arrange
-            const string key = "TestKey";
-            var item1 = new TestObject(1, "Jane Smith");
-            await _sut.SetItemAsync(key, item1);
+    [Fact]
+    public async Task ReturnsTrue_When_KeyExistsInStore()
+    {
+        // Arrange
+        const string key = "TestKey";
+        var item1 = new TestObject(1, "Jane Smith");
+        await _sut.SetItemAsync(key, item1);
             
-            // Act
-            var containsKey = await _sut.ContainKeyAsync(key);
+        // Act
+        var containsKey = await _sut.ContainKeyAsync(key);
 
-            // Assert
-            Assert.True(containsKey);
-        }
+        // Assert
+        Assert.True(containsKey);
+    }
 
-        [Fact]
-        public async Task ReturnsFalse_When_KeyDoesNotExistsInStore()
-        {
-            // Arrange
-            const string key = "TestKey";
+    [Fact]
+    public async Task ReturnsFalse_When_KeyDoesNotExistsInStore()
+    {
+        // Arrange
+        const string key = "TestKey";
             
-            // Act
-            var containsKey = await _sut.ContainKeyAsync(key);
+        // Act
+        var containsKey = await _sut.ContainKeyAsync(key);
 
-            // Assert
-            Assert.False(containsKey);
-        }
+        // Assert
+        Assert.False(containsKey);
     }
 }

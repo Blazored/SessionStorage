@@ -1,15 +1,14 @@
-﻿namespace Blazored.SessionStorage.Tests.TestAssets
-{
-    public class TestObject
-    {
-        public int Id { get; set; }
-        public string Name { get; set; }
+﻿namespace Blazored.SessionStorage.Tests.TestAssets;
 
-        public TestObject() { }
-        public TestObject(int id, string name)
-        {
-            Id = id;
-            Name = name;
-        }
+public class TestObject
+{
+    public int Id { get; set; }
+    public string Name { get; set; }
+
+    public TestObject() { }
+    public TestObject(int id, string name)
+    {
+        Id = id;
+        Name = name;
     }
 }

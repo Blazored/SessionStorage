@@ -25,7 +25,7 @@ builder.Services.AddBlazoredSessionStorage(config => {
 ```
 
 ### SetItem[Async] method now serializes string values
-Prior to v2 we bypassed the serialization of string values as it seemed a pointless as string can be stored directly. However, this led to some edge cases where nullable strings were being saved as the string `"null"`. Then when retrieved, instead of being null the value was `"null"`. By serializing strings this issue is taken care of. 
+Prior to v2 we bypassed the serialization of string values as it seemed pointless as string can be stored directly. However, this led to some edge cases where nullable strings were being saved as the string `"null"`. Then when retrieved, instead of being null the value was `"null"`. By serializing strings this issue is taken care of. 
 For those who wish to save raw string values, a new method `SetValueAsString[Async]` is available. This will save a string value without attempting to serialize it and will throw an exception if a null string is attempted to be saved.
 
 ## Installing
@@ -42,7 +42,7 @@ You can also install via the .NET CLI with the following command:
 dotnet add package Blazored.SessionStorage
 ```
 
-If you're using Visual Studio you can also install via the built in NuGet package manager.
+If you're using Jetbrains Rider or Visual Studio you can also install via the built in NuGet package manager.
 
 ## Setup
 
@@ -68,6 +68,17 @@ public static async Task Main(string[] args)
     await builder.Build().RunAsync();
 }
 ```
+
+### Registering services as Singleton - Blazor WebAssembly **ONLY**
+99% of developers will want to register Blazored SessionStorage using the method described above. However, in some very specific scenarios,
+developers may have a need to register services as Singleton as apposed to Scoped. This is possible by using the following method:
+
+```csharp
+builder.Services.AddBlazoredSessionStorageAsSingleton();
+```
+
+**This method will not work with Blazor Server applications as Blazor's JS interop services are registered as Scoped and cannot be injected into Singletons.**
+
 
 ## Usage (Blazor WebAssembly)
 To use Blazored.SessionStorage in Blazor WebAssembly, inject the `ISessionStorageService` per the example below.
@@ -128,9 +139,11 @@ The APIs available are:
   - GetItemAsync()
   - GetItemAsStringAsync()
   - RemoveItemAsync()
+  - RemoveItemsAsync()
   - ClearAsync()
   - LengthAsync()
   - KeyAsync()
+  - KeysAsync()
   - ContainKeyAsync()
   
 - synchronous via `ISyncSessionStorageService` (Synchronous methods are **only** available in Blazor WebAssembly):
@@ -139,9 +152,11 @@ The APIs available are:
   - GetItem()
   - GetItemAsString()
   - RemoveItem()
+  - RemovesItem()
   - Clear()
   - Length()
   - Key()
+  - Keys()
   - ContainKey()
 
 **Note:** Blazored.SessionStorage methods will handle the serialisation and de-serialisation of the data for you, the exception is the `GetItemAsString[Async]` method which will return the raw string value from session storage.
@@ -177,6 +192,24 @@ You can find an example of this in the Blazor Server sample project. The standar
 
 ## Testing with bUnit
 This library provides test extensions for use with the [bUnit testing library](https://bunit.dev/). Using these test extensions will provide an in memory implementation which mimics session storage allowing more realistic testing of your components.
+
+### Installing
+
+To install the package add the following line to you csproj file replacing x.x.x with the latest version number (found at the top of this file):
+
+```
+<PackageReference Include="Blazored.SessionStorage.TestExtensions" Version="x.x.x" />
+```
+
+You can also install via the .NET CLI with the following command:
+
+```
+dotnet add package Blazored.SessionStorage.TestExtensions
+```
+
+If you're using Jetbrains Rider or Visual Studio you can also install via the built in NuGet package manager.
+
+### Usage example
 
 Below is an example test which uses these extensions. You can find an example project which shows this code in action in the samples folder.
 
