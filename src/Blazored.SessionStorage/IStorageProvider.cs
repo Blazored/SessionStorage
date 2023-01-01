@@ -1,23 +1,26 @@
+using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace Blazored.SessionStorage
+namespace Blazored.SessionStorage;
+
+internal interface IStorageProvider
 {
-    internal interface IStorageProvider
-    {
-        void Clear();
-        ValueTask ClearAsync(CancellationToken? cancellationToken = null);
-        bool ContainKey(string key);
-        ValueTask<bool> ContainKeyAsync(string key, CancellationToken? cancellationToken = null);
-        string GetItem(string key);
-        ValueTask<string> GetItemAsync(string key, CancellationToken? cancellationToken = null);
-        string Key(int index);
-        ValueTask<string> KeyAsync(int index, CancellationToken? cancellationToken = null);
-        int Length();
-        ValueTask<int> LengthAsync(CancellationToken? cancellationToken = null);
-        void RemoveItem(string key);
-        ValueTask RemoveItemAsync(string key, CancellationToken? cancellationToken = null);
-        void SetItem(string key, string data);
-        ValueTask SetItemAsync(string key, string data, CancellationToken? cancellationToken = null);
-    }
+    void Clear();
+    ValueTask ClearAsync(CancellationToken cancellationToken = default);
+    bool ContainKey(string key);
+    ValueTask<bool> ContainKeyAsync(string key, CancellationToken cancellationToken = default);
+    string GetItem(string key);
+    ValueTask<string> GetItemAsync(string key, CancellationToken cancellationToken = default);
+    string Key(int index);
+    ValueTask<string> KeyAsync(int index, CancellationToken cancellationToken = default);
+    IEnumerable<string> Keys();
+    ValueTask<IEnumerable<string>> KeysAsync(CancellationToken cancellationToken = default);
+    int Length();
+    ValueTask<int> LengthAsync(CancellationToken cancellationToken = default);
+    void RemoveItem(string key);
+    ValueTask RemoveItemAsync(string key, CancellationToken cancellationToken = default);
+    ValueTask RemoveItemsAsync(IEnumerable<string> keys, CancellationToken cancellationToken = default);
+    void SetItem(string key, string data);
+    ValueTask SetItemAsync(string key, string data, CancellationToken cancellationToken = default);
 }

@@ -9,97 +9,96 @@ using Microsoft.Extensions.Options;
 using Moq;
 using Xunit;
 
-namespace Blazored.SessionStorage.Tests.SessionStorageServiceTests
+namespace Blazored.SessionStorage.Tests.SessionStorageServiceTests;
+
+public class GetItem
 {
-    public class GetItem
+    private readonly SessionStorageService _sut;
+    private readonly IStorageProvider _storageProvider;
+    private readonly IJsonSerializer _serializer;
+
+    private const string Key = "testKey";
+
+    public GetItem()
     {
-        private readonly SessionStorageService _sut;
-        private readonly IStorageProvider _storageProvider;
-        private readonly IJsonSerializer _serializer;
+        var mockOptions = new Mock<IOptions<SessionStorageOptions>>();
+        var jsonOptions = new JsonSerializerOptions();
+        jsonOptions.Converters.Add(new TimespanJsonConverter());
+        mockOptions.Setup(u => u.Value).Returns(new SessionStorageOptions());
+        _serializer = new SystemTextJsonSerializer(mockOptions.Object);
+        _storageProvider = new InMemoryStorageProvider();
+        _sut = new SessionStorageService(_storageProvider, _serializer);
+    }
 
-        private const string Key = "testKey";
+    [Theory]
+    [InlineData("")]
+    [InlineData("  ")]
+    [InlineData(null)]
+    public void ThrowsArgumentNullException_When_KeyIsInvalid(string key)
+    {
+        // arrange / act
+        var action = new Action(() => _sut.GetItem<object>(key));
 
-        public GetItem()
-        {
-            var mockOptions = new Mock<IOptions<SessionStorageOptions>>();
-            var jsonOptions = new JsonSerializerOptions();
-            jsonOptions.Converters.Add(new TimespanJsonConverter());
-            mockOptions.Setup(u => u.Value).Returns(new SessionStorageOptions());
-            _serializer = new SystemTextJsonSerializer(mockOptions.Object);
-            _storageProvider = new InMemoryStorageProvider();
-            _sut = new SessionStorageService(_storageProvider, _serializer);
-        }
-
-        [Theory]
-        [InlineData("")]
-        [InlineData("  ")]
-        [InlineData(null)]
-        public void ThrowsArgumentNullException_When_KeyIsInvalid(string key)
-        {
-            // arrange / act
-            var action = new Action(() => _sut.GetItem<object>(key));
-
-            // assert
-            Assert.Throws<ArgumentNullException>(action);
-        }
+        // assert
+        Assert.Throws<ArgumentNullException>(action);
+    }
         
-        [Theory]
-        [InlineData("Item1", "stringTest")]
-        [InlineData("Item2", 11)]
-        [InlineData("Item3", 11.11)]
-        public void ReturnsDeserializedDataFromStore<T>(string key, T data)
-        {
-            // Arrange
-            _sut.SetItem(key, data);
+    [Theory]
+    [InlineData("Item1", "stringTest")]
+    [InlineData("Item2", 11)]
+    [InlineData("Item3", 11.11)]
+    public void ReturnsDeserializedDataFromStore<T>(string key, T data)
+    {
+        // Arrange
+        _sut.SetItem(key, data);
             
-            // Act
-            var result = _sut.GetItem<T>(key);
+        // Act
+        var result = _sut.GetItem<T>(key);
 
-            // Assert
-            Assert.Equal(data, result);
-        }
+        // Assert
+        Assert.Equal(data, result);
+    }
 
-        [Fact]
-        public void ReturnsComplexObjectFromStore()
-        {
-            // Arrange
-            var objectToSave = new TestObject(2, "Jane Smith");
-            _sut.SetItem(Key, objectToSave);
+    [Fact]
+    public void ReturnsComplexObjectFromStore()
+    {
+        // Arrange
+        var objectToSave = new TestObject(2, "Jane Smith");
+        _sut.SetItem(Key, objectToSave);
 
-            // Act
-            var result = _sut.GetItem<TestObject>(Key);
+        // Act
+        var result = _sut.GetItem<TestObject>(Key);
 
-            // Assert
-            Assert.Equal(objectToSave.Id, result.Id);
-            Assert.Equal(objectToSave.Name, result.Name);
-        }
+        // Assert
+        Assert.Equal(objectToSave.Id, result.Id);
+        Assert.Equal(objectToSave.Name, result.Name);
+    }
         
-        [Fact]
-        public void ReturnsNullFromStore_When_NullValueSaved()
-        {
-            // Arrange
-            var valueToSave = (string)null;
-            _sut.SetItem(Key, valueToSave);
+    [Fact]
+    public void ReturnsNullFromStore_When_NullValueSaved()
+    {
+        // Arrange
+        var valueToSave = (string)null;
+        _sut.SetItem(Key, valueToSave);
 
-            // Act
-            var result = _sut.GetItem<string>(Key);
+        // Act
+        var result = _sut.GetItem<string>(Key);
 
-            // Assert
-            Assert.Null(result);
-        }
+        // Assert
+        Assert.Null(result);
+    }
         
-        [Fact]
-        public void ReturnsStringFromStore_When_JsonExceptionIsThrown()
-        {
-            // Arrange
-            var jsonData = "[{ id: 5, name: \"Jane Smith\"}]";
-            _storageProvider.SetItem(Key, jsonData);
+    [Fact]
+    public void ReturnsStringFromStore_When_JsonExceptionIsThrown()
+    {
+        // Arrange
+        var jsonData = "[{ id: 5, name: \"Jane Smith\"}]";
+        _storageProvider.SetItem(Key, jsonData);
 
-            // Act
-            var result = _sut.GetItem<string>(Key);
+        // Act
+        var result = _sut.GetItem<string>(Key);
 
-            // Assert
-            Assert.Equal(jsonData, result);
-        }
+        // Assert
+        Assert.Equal(jsonData, result);
     }
 }

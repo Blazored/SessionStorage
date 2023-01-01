@@ -8,49 +8,48 @@ using Microsoft.Extensions.Options;
 using Moq;
 using Xunit;
 
-namespace Blazored.SessionStorage.Tests.SessionStorageServiceTests
+namespace Blazored.SessionStorage.Tests.SessionStorageServiceTests;
+
+public class ContainsKey
 {
-    public class ContainsKey
+    private readonly SessionStorageService _sut;
+
+    public ContainsKey()
     {
-        private readonly SessionStorageService _sut;
+        var mockOptions = new Mock<IOptions<SessionStorageOptions>>();
+        var jsonOptions = new JsonSerializerOptions();
+        jsonOptions.Converters.Add(new TimespanJsonConverter());
+        mockOptions.Setup(u => u.Value).Returns(new SessionStorageOptions());
+        IJsonSerializer serializer = new SystemTextJsonSerializer(mockOptions.Object);
+        IStorageProvider storageProvider = new InMemoryStorageProvider();
+        _sut = new SessionStorageService(storageProvider, serializer);
+    }
 
-        public ContainsKey()
-        {
-            var mockOptions = new Mock<IOptions<SessionStorageOptions>>();
-            var jsonOptions = new JsonSerializerOptions();
-            jsonOptions.Converters.Add(new TimespanJsonConverter());
-            mockOptions.Setup(u => u.Value).Returns(new SessionStorageOptions());
-            IJsonSerializer serializer = new SystemTextJsonSerializer(mockOptions.Object);
-            IStorageProvider storageProvider = new InMemoryStorageProvider();
-            _sut = new SessionStorageService(storageProvider, serializer);
-        }
-
-        [Fact]
-        public void ReturnsTrue_When_KeyExistsInStore()
-        {
-            // Arrange
-            const string key = "TestKey";
-            var item1 = new TestObject(1, "Jane Smith");
-            _sut.SetItem(key, item1);
+    [Fact]
+    public void ReturnsTrue_When_KeyExistsInStore()
+    {
+        // Arrange
+        const string key = "TestKey";
+        var item1 = new TestObject(1, "Jane Smith");
+        _sut.SetItem(key, item1);
             
-            // Act
-            var containsKey = _sut.ContainKey(key);
+        // Act
+        var containsKey = _sut.ContainKey(key);
 
-            // Assert
-            Assert.True(containsKey);
-        }
+        // Assert
+        Assert.True(containsKey);
+    }
 
-        [Fact]
-        public void ReturnsFalse_When_KeyDoesNotExistsInStore()
-        {
-            // Arrange
-            const string key = "TestKey";
+    [Fact]
+    public void ReturnsFalse_When_KeyDoesNotExistsInStore()
+    {
+        // Arrange
+        const string key = "TestKey";
             
-            // Act
-            var containsKey = _sut.ContainKey(key);
+        // Act
+        var containsKey = _sut.ContainKey(key);
 
-            // Assert
-            Assert.False(containsKey);
-        }
+        // Assert
+        Assert.False(containsKey);
     }
 }

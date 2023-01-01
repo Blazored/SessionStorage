@@ -9,61 +9,60 @@ using Microsoft.Extensions.Options;
 using Moq;
 using Xunit;
 
-namespace Blazored.SessionStorage.Tests.SessionStorageServiceTests
+namespace Blazored.SessionStorage.Tests.SessionStorageServiceTests;
+
+public class RemoveItem
 {
-    public class RemoveItem
+    private readonly SessionStorageService _sut;
+    private readonly IStorageProvider _storageProvider;
+
+    private const string Key = "testKey";
+
+    public RemoveItem()
     {
-        private readonly SessionStorageService _sut;
-        private readonly IStorageProvider _storageProvider;
+        var mockOptions = new Mock<IOptions<SessionStorageOptions>>();
+        var jsonOptions = new JsonSerializerOptions();
+        jsonOptions.Converters.Add(new TimespanJsonConverter());
+        mockOptions.Setup(u => u.Value).Returns(new SessionStorageOptions());
+        IJsonSerializer serializer = new SystemTextJsonSerializer(mockOptions.Object);
+        _storageProvider = new InMemoryStorageProvider();
+        _sut = new SessionStorageService(_storageProvider, serializer);
+    }
 
-        private const string Key = "testKey";
+    [Theory]
+    [InlineData("")]
+    [InlineData("  ")]
+    [InlineData(null)]
+    public void ThrowsArgumentNullException_When_KeyIsInvalid(string key)
+    {
+        // arrange / act
+        var action = new Action(() => _sut.RemoveItem(key));
 
-        public RemoveItem()
-        {
-            var mockOptions = new Mock<IOptions<SessionStorageOptions>>();
-            var jsonOptions = new JsonSerializerOptions();
-            jsonOptions.Converters.Add(new TimespanJsonConverter());
-            mockOptions.Setup(u => u.Value).Returns(new SessionStorageOptions());
-            IJsonSerializer serializer = new SystemTextJsonSerializer(mockOptions.Object);
-            _storageProvider = new InMemoryStorageProvider();
-            _sut = new SessionStorageService(_storageProvider, serializer);
-        }
+        // assert
+        Assert.Throws<ArgumentNullException>(action);
+    }
 
-        [Theory]
-        [InlineData("")]
-        [InlineData("  ")]
-        [InlineData(null)]
-        public void ThrowsArgumentNullException_When_KeyIsInvalid(string key)
-        {
-            // arrange / act
-            var action = new Action(() => _sut.RemoveItem(key));
+    [Fact]
+    public void RemovesItemFromStoreIfExists()
+    {
+        // Arrange
+        var data = new TestObject(2, "Jane Smith");
+        _sut.SetItem(Key, data);
 
-            // assert
-            Assert.Throws<ArgumentNullException>(action);
-        }
+        // Act
+        _sut.RemoveItem(Key);
 
-        [Fact]
-        public void RemovesItemFromStoreIfExists()
-        {
-            // Arrange
-            var data = new TestObject(2, "Jane Smith");
-            _sut.SetItem(Key, data);
-
-            // Act
-            _sut.RemoveItem(Key);
-
-            // Assert
-            Assert.Equal(0, _storageProvider.Length());
-        }
+        // Assert
+        Assert.Equal(0, _storageProvider.Length());
+    }
         
-        [Fact]
-        public void DoesNothingWhenItemDoesNotExistInStore()
-        {
-            // Act
-            _sut.RemoveItem(Key);
+    [Fact]
+    public void DoesNothingWhenItemDoesNotExistInStore()
+    {
+        // Act
+        _sut.RemoveItem(Key);
 
-            // Assert
-            Assert.Equal(0, _storageProvider.Length());
-        }
+        // Assert
+        Assert.Equal(0, _storageProvider.Length());
     }
 }

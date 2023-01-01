@@ -1,8 +1,7 @@
-namespace Blazored.SessionStorage.Serialization
+namespace Blazored.SessionStorage.Serialization;
+
+public interface IJsonSerializer
 {
-    public interface IJsonSerializer
-    {
-        string Serialize<T>(T obj);
-        T Deserialize<T>(string text);
-    }
+    string Serialize<T>(T obj);
+    T Deserialize<T>(string text);
 }
