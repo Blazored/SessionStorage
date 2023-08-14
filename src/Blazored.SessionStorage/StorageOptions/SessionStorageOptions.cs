@@ -4,5 +4,5 @@ namespace Blazored.SessionStorage.StorageOptions;
 
 public class SessionStorageOptions
 {
-    public JsonSerializerOptions JsonSerializerOptions { get; } = new();
+    public JsonSerializerOptions JsonSerializerOptions { get; set; } = new();
 }
