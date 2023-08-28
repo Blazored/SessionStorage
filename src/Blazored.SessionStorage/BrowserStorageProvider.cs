@@ -24,7 +24,7 @@ internal class BrowserStorageProvider : IStorageProvider
     {
         try
         {
-            await _jSRuntime.InvokeVoidAsync("sessionStorage.clear", cancellationToken);
+            await _jSRuntime.InvokeVoidAsync("window.sessionStorage.clear", cancellationToken);
         }
         catch (Exception exception)
         {
@@ -41,7 +41,7 @@ internal class BrowserStorageProvider : IStorageProvider
     {
         try
         {
-            return await _jSRuntime.InvokeAsync<string>("sessionStorage.getItem", cancellationToken, key);
+            return await _jSRuntime.InvokeAsync<string>("window.sessionStorage.getItem", cancellationToken, key);
         }
         catch (Exception exception)
         {
@@ -58,7 +58,7 @@ internal class BrowserStorageProvider : IStorageProvider
     {
         try
         {
-            return await _jSRuntime.InvokeAsync<string>("sessionStorage.key", cancellationToken, index);
+            return await _jSRuntime.InvokeAsync<string>("window.sessionStorage.key", cancellationToken, index);
         }
         catch (Exception exception)
         {
@@ -92,7 +92,7 @@ internal class BrowserStorageProvider : IStorageProvider
     {
         try
         {
-            return await _jSRuntime.InvokeAsync<bool>("sessionStorage.hasOwnProperty", cancellationToken, key);
+            return await _jSRuntime.InvokeAsync<bool>("window.sessionStorage.hasOwnProperty", cancellationToken, key);
         }
         catch (Exception exception)
         {
@@ -109,7 +109,7 @@ internal class BrowserStorageProvider : IStorageProvider
     {
         try
         {
-            return await _jSRuntime.InvokeAsync<int>("eval", cancellationToken, "sessionStorage.length");
+            return await _jSRuntime.InvokeAsync<int>("eval", cancellationToken, "window.sessionStorage.length");
         }
         catch (Exception exception)
         {
@@ -126,7 +126,7 @@ internal class BrowserStorageProvider : IStorageProvider
     {
         try
         {
-            await _jSRuntime.InvokeVoidAsync("sessionStorage.removeItem", cancellationToken, key);
+            await _jSRuntime.InvokeVoidAsync("window.sessionStorage.removeItem", cancellationToken, key);
         }
         catch (Exception exception)
         {
@@ -145,7 +145,7 @@ internal class BrowserStorageProvider : IStorageProvider
         {
             foreach (var key in keys)
             {
-                await _jSRuntime.InvokeVoidAsync("sessionStorage.removeItem", cancellationToken, key);
+                await _jSRuntime.InvokeVoidAsync("window.sessionStorage.removeItem", cancellationToken, key);
             }
         }
         catch (Exception exception)
@@ -163,7 +163,7 @@ internal class BrowserStorageProvider : IStorageProvider
     {
         try
         {
-            await _jSRuntime.InvokeVoidAsync("sessionStorage.setItem", cancellationToken, key, data);
+            await _jSRuntime.InvokeVoidAsync("window.sessionStorage.setItem", cancellationToken, key, data);
         }
         catch (Exception exception)
         {
@@ -181,7 +181,7 @@ internal class BrowserStorageProvider : IStorageProvider
         CheckForInProcessRuntime();
         try
         {
-            _jSInProcessRuntime.InvokeVoid("sessionStorage.clear");
+            _jSInProcessRuntime.InvokeVoid("window.sessionStorage.clear");
         }
         catch (Exception exception)
         {
@@ -199,7 +199,7 @@ internal class BrowserStorageProvider : IStorageProvider
         CheckForInProcessRuntime();
         try
         {
-            return _jSInProcessRuntime.Invoke<string>("sessionStorage.getItem", key);
+            return _jSInProcessRuntime.Invoke<string>("window.sessionStorage.getItem", key);
         }
         catch (Exception exception)
         {
@@ -217,7 +217,7 @@ internal class BrowserStorageProvider : IStorageProvider
         CheckForInProcessRuntime();
         try
         {
-            return _jSInProcessRuntime.Invoke<string>("sessionStorage.key", index);
+            return _jSInProcessRuntime.Invoke<string>("window.sessionStorage.key", index);
         }
         catch (Exception exception)
         {
@@ -253,7 +253,7 @@ internal class BrowserStorageProvider : IStorageProvider
         CheckForInProcessRuntime();
         try
         {
-            return _jSInProcessRuntime.Invoke<bool>("sessionStorage.hasOwnProperty", key);
+            return _jSInProcessRuntime.Invoke<bool>("window.sessionStorage.hasOwnProperty", key);
         }
         catch (Exception exception)
         {
@@ -271,7 +271,7 @@ internal class BrowserStorageProvider : IStorageProvider
         CheckForInProcessRuntime();
         try
         {
-            return _jSInProcessRuntime.Invoke<int>("eval", "sessionStorage.length");
+            return _jSInProcessRuntime.Invoke<int>("eval", "window.sessionStorage.length");
         }
         catch (Exception exception)
         {
@@ -289,7 +289,7 @@ internal class BrowserStorageProvider : IStorageProvider
         CheckForInProcessRuntime();
         try
         {
-            _jSInProcessRuntime.InvokeVoid("sessionStorage.removeItem", key);
+            _jSInProcessRuntime.InvokeVoid("window.sessionStorage.removeItem", key);
         }
         catch (Exception exception)
         {
@@ -309,7 +309,7 @@ internal class BrowserStorageProvider : IStorageProvider
         {
             foreach (var key in keys)
             {
-                _jSInProcessRuntime.InvokeVoid("sessionStorage.removeItem", key);
+                _jSInProcessRuntime.InvokeVoid("window.sessionStorage.removeItem", key);
             }
         }
         catch (Exception exception)
@@ -328,7 +328,7 @@ internal class BrowserStorageProvider : IStorageProvider
         CheckForInProcessRuntime();
         try
         {
-            _jSInProcessRuntime.InvokeVoid("sessionStorage.setItem", key, data);
+            _jSInProcessRuntime.InvokeVoid("window.sessionStorage.setItem", key, data);
         }
         catch (Exception exception)
         {
