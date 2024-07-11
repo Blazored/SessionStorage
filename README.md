@@ -152,7 +152,7 @@ The APIs available are:
   - GetItem()
   - GetItemAsString()
   - RemoveItem()
-  - RemovesItem()
+  - RemoveItems()
   - Clear()
   - Length()
   - Key()
