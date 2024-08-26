@@ -35,13 +35,13 @@ public class GetItemAsStringAsync
     [InlineData("")]
     [InlineData("  ")]
     [InlineData(null)]
-    public void ThrowsArgumentNullException_When_KeyIsInvalid(string key)
+    public async Task ThrowsArgumentNullException_When_KeyIsInvalid(string key)
     {
         // arrange / act
         var action = new Func<Task>(async () => await _sut.GetItemAsStringAsync(key));
 
         // assert
-        Assert.ThrowsAsync<ArgumentNullException>(action);
+        await Assert.ThrowsAsync<ArgumentNullException>(action);
     }
         
     [Theory]
